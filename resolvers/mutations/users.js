@@ -37,5 +37,23 @@ module.exports = {
     } catch (error) {
       throw new Error(error);
     }
+  },
+
+  async deleteMe(
+    parent,
+    args,
+    {
+      request: { req }
+    },
+    info
+  ) {
+    checkAuth(req);
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { isActive: false },
+      { runValidators: true, new: true }
+    );
+
+    return user;
   }
 };

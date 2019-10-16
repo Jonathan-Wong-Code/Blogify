@@ -9,12 +9,21 @@ const typeDefs = gql`
   type Mutation {
     signup(data: SignupUserInput!): AuthPayload!
     login(data: LoginUserInput!): AuthPayload!
+    logout: Message!
+
+    forgotPassword(email: String): Message!
+
     updateMe(data: UpdateUserInput): User!
+    deleteMe: User!
   }
 
   type AuthPayload {
     token: String!
     user: User!
+  }
+
+  type Message {
+    message: String!
   }
 
   type User {
@@ -27,6 +36,7 @@ const typeDefs = gql`
     passwordResetExpiry: String
     passwordResetToken: String
     passwordChangedAt: String
+    isActive: Boolean!
   }
 
   input SignupUserInput {
