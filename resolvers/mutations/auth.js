@@ -117,5 +117,29 @@ module.exports = {
     const token = createSendToken(user._id, res);
 
     return { token, user };
+  },
+
+  async updatePassword(
+    parent,
+    { data },
+    {
+      request: { res, req }
+    },
+    info
+  ) {
+    const { currentPassword, updatedPassword, confirmUpdatedPassword } = data;
+    const isMatch = await req.user.verifyPassword(
+      currentPassword,
+      req.user.password
+    );
+    if (!isMatch) {
+      throw new Error("Current password is incorrect");
+    }
+
+    req.user.password = updatedPassword;
+    req.user.confirmPassword = confirmUpdatedPassword;
+    await req.user.save();
+
+    return { message: "Password updated!" };
   }
 };
