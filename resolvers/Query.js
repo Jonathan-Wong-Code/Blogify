@@ -17,7 +17,7 @@ const Query = {
     if (!req.isAuth) {
       throw new Error("Must be authenticated!");
     }
-    const user = await User.findById({ _id: id });
+    const user = await User.findById({ _id: id }).populate("posts");
 
     if (!user) {
       throw new Error("User not found");
@@ -38,7 +38,7 @@ const Query = {
       throw new Error("Must be authenticated to see your posts");
     }
 
-    const myPosts = await Post.find();
+    const myPosts = await Post.find({ author: req.user._id });
     return myPosts;
   }
 };

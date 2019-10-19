@@ -21,6 +21,8 @@ const typeDefs = gql`
     deleteMe: User!
 
     createPost(data: CreatePostInput!): Post!
+    updatePost(id: ID!, data: UpdatePostInput!): Post!
+    deletePost(id: ID!): Post!
   }
 
   type AuthPayload {
@@ -86,6 +88,16 @@ const typeDefs = gql`
   input CreatePostInput {
     title: String!
     body: String!
+  }
+
+  input UpdatePostInput {
+    title: String
+    body: String
+    published: Boolean
+  }
+
+  input DeletePostInput {
+    id: ID!
   }
 `;
 
