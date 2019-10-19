@@ -78,6 +78,15 @@ UserSchema.pre("save", async function(next) {
   next();
 });
 
+UserSchema.pre("save", async function(next) {
+  if (this.isModified("password") && !this.isNew) {
+    this.passwordChangedAt = Date.now() - 1000;
+    return next();
+  }
+
+  next();
+});
+
 UserSchema.pre(/^find/, function(next) {
   this.find({ isActive: true });
   next();

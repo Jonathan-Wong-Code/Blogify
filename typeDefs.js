@@ -11,6 +11,7 @@ const typeDefs = gql`
     login(data: LoginUserInput!): AuthPayload!
     logout: Message!
 
+    resetPassword(data: ResetPasswordInput!): AuthPayload!
     forgotPassword(email: String): Message!
 
     updateMe(data: UpdateUserInput): User!
@@ -54,6 +55,12 @@ const typeDefs = gql`
   input UpdateUserInput {
     email: String
     name: String
+  }
+
+  input ResetPasswordInput {
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
   }
 `;
 

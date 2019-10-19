@@ -89,5 +89,33 @@ module.exports = {
     } catch (error) {
       throw new Error(error);
     }
+  },
+
+  async resetPassword(
+    parent,
+    { data },
+    {
+      request: { res }
+    },
+    info
+  ) {
+    const { resetToken, password, confirmPassword } = data;
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const user = await User.findOne({ passwordResetToken: hashedToken });
+    if (!user) {
+      throw new Error("Invalid token! Please try to reset again");
+    }
+
+    user.password = password;
+    user.confirmPassword = confirmPassword;
+    await user.save();
+
+    const token = createSendToken(user._id, res);
+
+    return { token, user };
   }
 };
