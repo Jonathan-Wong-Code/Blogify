@@ -4,6 +4,8 @@ const typeDefs = gql`
   type Query {
     users: [User!]!
     user(id: ID!): User!
+    myPosts: [Post!]!
+    post: Post!
   }
 
   type Mutation {
@@ -17,6 +19,8 @@ const typeDefs = gql`
 
     updateMe(data: UpdateUserInput): User!
     deleteMe: User!
+
+    createPost(data: CreatePostInput!): Post!
   }
 
   type AuthPayload {
@@ -39,6 +43,15 @@ const typeDefs = gql`
     passwordResetToken: String
     passwordChangedAt: String
     isActive: Boolean!
+    posts: [Post!]!
+  }
+
+  type Post {
+    _id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+    author: User!
   }
 
   input SignupUserInput {
@@ -68,6 +81,11 @@ const typeDefs = gql`
     currentPassword: String!
     updatedPassword: String!
     confirmUpdatedPassword: String!
+  }
+
+  input CreatePostInput {
+    title: String!
+    body: String!
   }
 `;
 

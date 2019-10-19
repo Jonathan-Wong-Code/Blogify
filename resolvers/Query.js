@@ -1,8 +1,8 @@
 const User = require("../models/users");
-
+const Post = require("../models/posts");
 const Query = {
   users: async () => {
-    const users = await User.find();
+    const users = await User.find().populate("posts");
     return users;
   },
 
@@ -24,6 +24,22 @@ const Query = {
     }
 
     return user;
+  },
+
+  async myPosts(
+    parent,
+    args,
+    {
+      request: { req }
+    },
+    info
+  ) {
+    if (!req.isAuth) {
+      throw new Error("Must be authenticated to see your posts");
+    }
+
+    const myPosts = await Post.find();
+    return myPosts;
   }
 };
 
