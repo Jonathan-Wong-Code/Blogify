@@ -1,5 +1,6 @@
 const { checkAuth } = require("../../utils/utils.js");
 const Post = require("../../models/posts");
+const Comment = require("../../models/comments");
 
 const Comments = {
   async createComment(
@@ -15,8 +16,8 @@ const Comments = {
     if (!post) {
       throw new Error("404 Post not found");
     }
-
-    const comment = await comment.Create({
+    console.log(req.user._id);
+    const comment = await Comment.create({
       ...data,
       author: req.user._id,
       post: postId

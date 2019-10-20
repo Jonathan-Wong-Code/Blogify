@@ -20,9 +20,9 @@ const commentSchema = new mongoose.Schema({
   }
 });
 
-// commentSchema.pre(/^find/, function(next) {
-//   this.populate("author").populate("post");
-//   next();
-// });
+commentSchema.pre(/^find/, function(next) {
+  this.populate("author").populate("post");
+  next();
+});
 
 module.exports = mongoose.model("Comment", commentSchema);
