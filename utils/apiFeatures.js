@@ -16,9 +16,15 @@ class APIFeatures {
       )
     );
 
-    if (queryStr) {
+    // Filtering for posts
+    if (queryStr.title || queryStr.body) {
       queryStr.title = new RegExp(queryStr.title, "gi");
       queryStr.body = new RegExp(queryStr.body, "gi");
+    }
+
+    // Filtering for comments
+    if (queryStr.text) {
+      queryStr.text = new RegExp(queryStr.text, "gi");
     }
 
     this.queryObject = this.queryObject.find(queryStr);

@@ -6,6 +6,7 @@ const typeDefs = gql`
     users: [User!]!
     user(id: ID!): User!
     myPosts(queryParams: PostQueryParams): [Post!]!
+    comments(queryParams: CommentQueryParams): [Comment!]!
     post: Post!
   }
 
@@ -24,6 +25,8 @@ const typeDefs = gql`
     createPost(data: CreatePostInput!): Post!
     updatePost(id: ID!, data: UpdatePostInput!): Post!
     deletePost(id: ID!): Post!
+
+    createComment(postId: ID!, data: CreateCommentInput): Comment!
   }
 
   type AuthPayload {
@@ -47,6 +50,7 @@ const typeDefs = gql`
     passwordChangedAt: String
     isActive: Boolean!
     posts: [Post!]!
+    comments: [Comment!]!
   }
 
   type Post {
@@ -57,6 +61,14 @@ const typeDefs = gql`
     createdAt: Date!
     updatedAt: Date
     author: User!
+    comments: [Comment!]!
+  }
+
+  type Comment {
+    _id: ID!
+    text: String!
+    author: User!
+    post: Post!
   }
 
   input SignupUserInput {
@@ -110,6 +122,17 @@ const typeDefs = gql`
 
   input DeletePostInput {
     id: ID!
+  }
+
+  input CommentQueryParams {
+    text: String
+    sort: String
+    limit: Float
+    page: Float
+  }
+
+  input CreateCommentInput {
+    text: String!
   }
 `;
 

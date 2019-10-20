@@ -67,6 +67,12 @@ UserSchema.virtual("posts", {
   foreignField: "author"
 });
 
+UserSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "author"
+});
+
 UserSchema.methods.toJSON = function() {
   const returnedData = this.toObject();
   delete returnedData.password;
