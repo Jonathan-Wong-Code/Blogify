@@ -1,5 +1,7 @@
 const User = require("../models/users");
 const Post = require("../models/posts");
+const APIFeatures = require("../utils/apiFeatures");
+
 const Query = {
   users: async () => {
     const users = await User.find().populate("posts");
@@ -28,7 +30,7 @@ const Query = {
 
   async myPosts(
     parent,
-    args,
+    { queryParams = {} },
     {
       request: { req }
     },
@@ -37,8 +39,16 @@ const Query = {
     if (!req.isAuth) {
       throw new Error("Must be authenticated to see your posts");
     }
+    console.log(queryParams);
+    const features = new APIFeatures(
+      Post.find({ author: req.user._id }),
+      queryParams
+    )
+      .filter()
+      .sort()
+      .paginate();
+    const myPosts = await features.queryObject;
 
-    const myPosts = await Post.find({ author: req.user._id });
     return myPosts;
   }
 };

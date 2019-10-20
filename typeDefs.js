@@ -1,10 +1,11 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  scalar Date
   type Query {
     users: [User!]!
     user(id: ID!): User!
-    myPosts: [Post!]!
+    myPosts(queryParams: PostQueryParams): [Post!]!
     post: Post!
   }
 
@@ -53,6 +54,8 @@ const typeDefs = gql`
     title: String!
     body: String!
     published: Boolean!
+    createdAt: Date!
+    updatedAt: Date
     author: User!
   }
 
@@ -94,6 +97,15 @@ const typeDefs = gql`
     title: String
     body: String
     published: Boolean
+  }
+
+  input PostQueryParams {
+    title: String
+    body: String
+    published: Boolean
+    sort: String
+    limit: Float
+    page: Float
   }
 
   input DeletePostInput {
