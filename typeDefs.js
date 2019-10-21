@@ -27,11 +27,9 @@ const typeDefs = gql`
     deletePost(id: ID!): Post!
 
     createComment(postId: ID!, data: CreateCommentInput): Comment!
-    updateComment(
-      postId: ID!
-      commentId: ID!
-      data: UpdateCommentInput!
-    ): Comment!
+    updateComment(commentId: ID!, data: UpdateCommentInput!): Comment!
+
+    deleteComment(commentId: ID!): Comment!
   }
 
   type AuthPayload {
