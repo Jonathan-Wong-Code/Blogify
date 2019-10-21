@@ -1,4 +1,3 @@
-const User = require("../../models/users");
 const Post = require("../../models/posts");
 const { checkAuth } = require("../../utils/utils");
 

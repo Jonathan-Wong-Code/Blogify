@@ -28,8 +28,8 @@ const typeDefs = gql`
 
     createComment(postId: ID!, data: CreateCommentInput): Comment!
     updateComment(commentId: ID!, data: UpdateCommentInput!): Comment!
-
     deleteComment(commentId: ID!): Comment!
+    addLike(commentId: ID): Comment!
   }
 
   type AuthPayload {
@@ -72,6 +72,7 @@ const typeDefs = gql`
     text: String!
     author: User!
     post: Post!
+    likes: [ID!]!
   }
 
   input SignupUserInput {

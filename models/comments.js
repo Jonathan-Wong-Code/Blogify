@@ -17,7 +17,14 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Post",
     required: true
-  }
+  },
+
+  likes: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 commentSchema.pre(/^find/, function(next) {

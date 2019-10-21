@@ -69,8 +69,6 @@ const Query = {
       .paginate();
     const comments = await features.queryObject;
 
-    console.log(comments);
-
     return comments;
   }
 };
