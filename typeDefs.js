@@ -27,6 +27,11 @@ const typeDefs = gql`
     deletePost(id: ID!): Post!
 
     createComment(postId: ID!, data: CreateCommentInput): Comment!
+    updateComment(
+      postId: ID!
+      commentId: ID!
+      data: UpdateCommentInput!
+    ): Comment!
   }
 
   type AuthPayload {
@@ -132,6 +137,10 @@ const typeDefs = gql`
   }
 
   input CreateCommentInput {
+    text: String!
+  }
+
+  input UpdateCommentInput {
     text: String!
   }
 `;

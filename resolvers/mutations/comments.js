@@ -16,7 +16,6 @@ const Comments = {
     if (!post) {
       throw new Error("404 Post not found");
     }
-    console.log(req.user._id);
     const comment = await Comment.create({
       ...data,
       author: req.user._id,
@@ -24,6 +23,36 @@ const Comments = {
     });
 
     return comment;
+  },
+
+  async updateComment(
+    parent,
+    { commentId, postId, data },
+    {
+      request: { req }
+    },
+    info
+  ) {
+    checkAuth(req);
+    try {
+      const postExists = await Post.findById(postId);
+      if (!postExists) {
+        throw new Error("404 Post does not exist");
+      }
+      const comment = await Comment.findOneAndUpdate({
+        _id: commentId,
+        post: postId,
+        author: req.user._id
+      });
+
+      if (!comment) {
+        throw new Error("No comment found with that ID");
+      }
+
+      return comment;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 };
 
