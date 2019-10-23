@@ -1,6 +1,6 @@
-const { checkAuth } = require("./../../utils/utils");
+const { checkAuth, checkAdmin } = require("./../../utils/utils");
 const User = require("./../../models/users");
-
+const catchAsync = require("./../../utils/catchAsync");
 const filterObj = (data, ...allowedFields) => {
   const filteredData = {};
   allowedFields.forEach(fieldKey => {
@@ -55,5 +55,48 @@ module.exports = {
     );
 
     return user;
-  }
+  },
+
+  updateUser: catchAsync(
+    async (parent, { userId, data }, { request: { req } }, info) => {
+      checkAuth(req);
+      checkAdmin(req);
+      const filteredObj = filterObj(data, "name", "email", "role", "isActive");
+
+      const user = await User.findByIdAndUpdate(userId, filteredObj, {
+        runValidators: true,
+        new: true
+      });
+
+      if (!user) {
+        throw new Error("404 User not found");
+      }
+
+      if (data.password && data.confirmPassword) {
+        user.password = data.password;
+        user.confirmPassword = data.confirmPassword;
+        await user.save();
+      }
+
+      return user;
+    }
+  ),
+
+  deactivateUser: catchAsync(
+    async (parent, { id }, { request: { req } }, info) => {
+      checkAdmin(req);
+      checkAuth(req);
+
+      const user = await User.findByIdAndUpdate(
+        id,
+        { isActive: false },
+        { runValidators: true, new: true }
+      );
+      if (!user) {
+        throw new Error("404 User not found");
+      }
+
+      return user;
+    }
+  )
 };

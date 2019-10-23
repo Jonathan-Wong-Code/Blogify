@@ -1,12 +1,14 @@
 const User = require("../models/users");
 const Post = require("../models/posts");
 const Comment = require("../models/comments");
-const { checkAuth } = require("../utils/utils");
+const { checkAuth, checkAdmin } = require("../utils/utils");
 const APIFeatures = require("../utils/apiFeatures");
 const catchAsync = require("../utils//catchAsync");
 
 const Query = {
-  users: catchAsync(async () => {
+  users: catchAsync(async (parent, args, { request: { req } }, info) => {
+    checkAuth(req);
+    checkAdmin(req);
     const users = await User.find()
       .populate({ path: "posts", populate: { path: "comments" } })
       .populate("comments");

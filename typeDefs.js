@@ -20,8 +20,11 @@ const typeDefs = gql`
     forgotPassword(email: String): Message!
     updatePassword(data: UpdatePasswordInput!): Message!
 
-    updateMe(data: UpdateUserInput): User!
+    updateMe(data: UpdateMeInput): User!
     deleteMe: User!
+
+    updateUser(userId: ID!, data: UpdateUserInput): User!
+    deactivateUser(id: ID!): User!
 
     createPost(data: CreatePostInput!): Post!
     updatePost(id: ID!, data: UpdatePostInput!): Post!
@@ -53,8 +56,18 @@ const typeDefs = gql`
     passwordResetToken: String
     passwordChangedAt: String
     isActive: Boolean!
+    role: String
     posts: [Post!]!
     comments: [Comment!]!
+  }
+
+  input UpdateUserInput {
+    name: String
+    email: String
+    password: String
+    confirmPassword: String
+    isActive: Boolean
+    role: String
   }
 
   type Post {
@@ -88,7 +101,7 @@ const typeDefs = gql`
     password: String!
   }
 
-  input UpdateUserInput {
+  input UpdateMeInput {
     email: String
     name: String
   }
