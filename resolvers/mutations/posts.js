@@ -1,5 +1,6 @@
 const Post = require("../../models/posts");
 const { checkAuth } = require("../../utils/utils");
+const catchAsync = require("../../utils/catchAsync");
 
 const Posts = {
   async createPost(

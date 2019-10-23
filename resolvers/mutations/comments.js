@@ -2,6 +2,7 @@ const { checkAuth } = require("../../utils/utils.js");
 const Post = require("../../models/posts");
 const Comment = require("../../models/comments");
 const catchAsync = require("../../utils/catchAsync");
+
 const Comments = {
   createComment: catchAsync(
     async (parent, { postId, data }, { request: { req } }, info) => {

@@ -6,6 +6,7 @@ const typeDefs = gql`
     users: [User!]!
     user(id: ID!): User!
     myPosts(queryParams: PostQueryParams): [Post!]!
+    allPosts(queryParams: PostQueryParams): [Post!]!
     comments(queryParams: CommentQueryParams): [Comment!]!
     post: Post!
   }
