@@ -2,16 +2,19 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { AuthProvider } from "../context/auth";
-import { ApolloProvider } from "@apollo/react-hooks";
 
-export const renderContextRouterApollo = ui => {
+export const renderContextRouter = ui => {
   return {
     ...render(
-      <ApolloProvider client={{}}>
-        <MemoryRouter>
-          <AuthProvider>{ui}</AuthProvider>
-        </MemoryRouter>
-      </ApolloProvider>
+      <MemoryRouter>
+        <AuthProvider>{ui}</AuthProvider>
+      </MemoryRouter>
     )
+  };
+};
+
+export const renderRouter = ui => {
+  return {
+    ...render(<MemoryRouter>{ui}</MemoryRouter>)
   };
 };

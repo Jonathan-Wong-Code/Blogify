@@ -9,7 +9,7 @@ import reducer from "../../reducers/stateReducer";
 import { useAuthDispatch } from "../../context/auth";
 import { LOGIN } from "../../constants";
 
-const LOGIN_MUTATION = gql`
+export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
     login(data: { email: $email, password: $password }) {
       token
@@ -39,6 +39,7 @@ export default function Login() {
 
   const onSubmit = e => {
     e.preventDefault();
+
     login({
       variables: {
         email,
@@ -49,10 +50,10 @@ export default function Login() {
 
   if (loading) return <p>Loading...</p>;
   return (
-    <div>
+    <section data-testid="login-page">
       LoginPage
       <form action="" onSubmit={onSubmit} data-testid="login-form">
-        <label htmlFor="login-email">Email: </label>
+        <label htmlFor="login-email">Email:</label>
         <input
           type="text"
           name="email"
@@ -60,7 +61,7 @@ export default function Login() {
           value={email}
           onChange={e => setState({ email: e.target.value })}
         />
-        <label htmlFor="password">Password: </label>
+        <label htmlFor="login-password">Password:</label>
         <input
           type="text"
           name="password"
@@ -71,6 +72,6 @@ export default function Login() {
         <button type="submit">Submit</button>
       </form>
       {error && <p>{error.message}</p>}
-    </div>
+    </section>
   );
 }
