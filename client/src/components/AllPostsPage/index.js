@@ -27,10 +27,14 @@ const GET_ALL_POSTS = gql`
   }
 `;
 
-export default function PostList() {
-  const { data, error, loading } = useQuery(GET_ALL_POSTS);
+export default function AllPostsPage() {
+  const { data, error, loading } = useQuery(GET_ALL_POSTS, {});
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
   console.log(data);
-  return <div></div>;
+  return (
+    <section>
+      <h2>All Posts Page</h2>
+    </section>
+  );
 }

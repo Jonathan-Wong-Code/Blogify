@@ -1,13 +1,12 @@
 import React from "react";
-import PostList from "./components/PostList";
+import { useAuthState } from "./context/auth";
+import AuthenticatedApp from "./App/AuthenticatedApp";
+import UnauthenticatedApp from "./App/UnauthenticatedApp";
 
 function App() {
-  return (
-    <div className="App">
-      App
-      <PostList />
-    </div>
-  );
+  const { user } = useAuthState();
+
+  return user ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 
 export default App;
