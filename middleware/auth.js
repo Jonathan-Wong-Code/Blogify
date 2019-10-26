@@ -10,7 +10,6 @@ module.exports = async (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   } else if (req.headers.cookie) {
-    console.log(req.headers.cookie);
     token = req.headers.cookie.split("jwt=")[1];
   }
 

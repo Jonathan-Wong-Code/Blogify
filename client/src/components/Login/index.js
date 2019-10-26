@@ -51,7 +51,7 @@ export default function Login() {
   return (
     <div>
       LoginPage
-      <form action="" onSubmit={onSubmit}>
+      <form action="" onSubmit={onSubmit} data-testid="login-form">
         <label htmlFor="login-email">Email: </label>
         <input
           type="text"

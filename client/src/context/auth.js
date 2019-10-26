@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useReducer } from "react";
 import { LOGIN, LOGOUT } from "../constants";
-const AuthDispatchContext = createContext();
-const AuthStateContext = createContext();
+
+export const AuthDispatchContext = createContext();
+export const AuthStateContext = createContext();
 
 const initialState = { user: null };
 
