@@ -2,6 +2,8 @@ const User = require("../../models/users");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("./../../utils/email");
 const crypto = require("crypto");
+const catchAsync = require("../../utils/catchAsync");
+const { checkAuth } = require("../../utils/utils");
 
 const createSendToken = (id, res) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "90d" });
@@ -14,7 +16,7 @@ const createSendToken = (id, res) => {
 };
 
 module.exports = {
-  signup: async (parent, { data }, { request: { res } }, info) => {
+  signup: catchAsync(async (parent, { data }, { request: { res } }, info) => {
     const { name, email, password, confirmPassword } = data;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -30,9 +32,9 @@ module.exports = {
 
     const token = createSendToken(user._id, res);
     return { user, token };
-  },
+  }),
 
-  login: async (parent, { data }, { request: { res } }, info) => {
+  login: catchAsync(async (parent, { data }, { request: { res } }, info) => {
     const { email, password } = data;
     const user = await User.findOne({ email });
     if (!user) {
@@ -45,9 +47,9 @@ module.exports = {
 
     const token = createSendToken(user._id, res);
     return { user, token };
-  },
+  }),
 
-  logout: async (parent, args, { request: { res } }, info) => {
+  logout: catchAsync(async (parent, args, { request: { res } }, info) => {
     const token = jwt.sign("badidea", "not a good secret");
 
     res.cookie("jwt", token, {
@@ -56,7 +58,14 @@ module.exports = {
     });
 
     return { message: "Logging out..." };
-  },
+  }),
+
+  checkLoggedIn: catchAsync(async (parent, ctx, { request: { req, res } }) => {
+    checkAuth(req);
+
+    const token = createSendToken(req.user._id, res);
+    return { token, user: req.user };
+  }),
 
   async forgotPassword(
     parent,

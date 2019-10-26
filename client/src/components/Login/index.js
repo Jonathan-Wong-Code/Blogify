@@ -1,10 +1,13 @@
 import React, { useReducer } from "react";
+
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+
 import { useHistory } from "react-router-dom";
+
 import reducer from "../../reducers/stateReducer";
 import { useAuthDispatch } from "../../context/auth";
-import { LOGIN } from "../../context/types";
+import { LOGIN } from "../../constants";
 
 const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
@@ -53,7 +56,7 @@ export default function Login() {
         <input
           type="text"
           name="email"
-          id="loginEmail"
+          id="login-email"
           value={email}
           onChange={e => setState({ email: e.target.value })}
         />

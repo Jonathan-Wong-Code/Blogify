@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { LOGIN, LOGOUT } from "./types";
+import { LOGIN, LOGOUT } from "../constants";
 const AuthDispatchContext = createContext();
 const AuthStateContext = createContext();
 

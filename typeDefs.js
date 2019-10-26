@@ -15,6 +15,7 @@ const typeDefs = gql`
     signup(data: SignupUserInput!): AuthPayload!
     login(data: LoginUserInput!): AuthPayload!
     logout: Message!
+    checkLoggedIn: AuthPayload!
 
     resetPassword(data: ResetPasswordInput!): AuthPayload!
     forgotPassword(email: String): Message!
