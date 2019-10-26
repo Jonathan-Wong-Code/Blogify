@@ -34,12 +34,13 @@ export default function Login() {
     onCompleted: ({ login: { user } }) => {
       dispatch({ type: LOGIN, user });
       history.push("/");
-    }
+    },
+    //Hacky fix fo Error tests but still an open issue in Apollo
+    onError: () => {}
   });
 
   const onSubmit = e => {
     e.preventDefault();
-
     login({
       variables: {
         email,
@@ -48,7 +49,7 @@ export default function Login() {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p data-testid="login-loading">Loading...</p>;
   return (
     <section data-testid="login-page">
       LoginPage
@@ -71,7 +72,7 @@ export default function Login() {
         />
         <button type="submit">Submit</button>
       </form>
-      {error && <p>{error.message}</p>}
+      {error && <p data-testid="login-error">{error.message}</p>}
     </section>
   );
 }
