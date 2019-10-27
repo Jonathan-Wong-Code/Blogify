@@ -27,6 +27,9 @@ function Header() {
           {user && (
             <>
               <li>
+                <Link to="create-post">Create Post</Link>
+              </li>
+              <li>
                 <button onClick={logout} aria-busy={loading}>
                   Log{loading ? "ging out..." : "out"}
                 </button>

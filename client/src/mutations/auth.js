@@ -15,6 +15,7 @@ export const LOGIN_MUTATION = gql`
       user {
         name
         email
+        role
       }
     }
   }
@@ -40,6 +41,7 @@ export const SIGNUP_MUTATION = gql`
         name
         email
         _id
+        role
       }
     }
   }

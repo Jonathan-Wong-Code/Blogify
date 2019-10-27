@@ -1,10 +1,10 @@
 import React, { useReducer } from "react";
 
 import { useMutation } from "@apollo/react-hooks";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import reducer from "../../reducers/stateReducer";
-import { useAuthDispatch, useAuthState } from "../../context/auth";
+import { useAuthDispatch } from "../../context/auth";
 import { LOGIN } from "../../constants";
 import { LOGIN_MUTATION } from "../../mutations/auth";
 

@@ -1,11 +1,10 @@
-import React, { useReducer, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useReducer } from "react";
 import { useMutation } from "@apollo/react-hooks";
 
 import { SIGNUP_MUTATION } from "../../mutations/auth";
 import { GET_ALL_USERS } from "../../queries/users";
 import reducer from "../../reducers/stateReducer";
-import { useAuthDispatch, useAuthState } from "../../context/auth";
+import { useAuthDispatch } from "../../context/auth";
 import { LOGIN } from "../../constants";
 export default function Signup() {
   const [{ name, email, password, confirmPassword }, setState] = useReducer(

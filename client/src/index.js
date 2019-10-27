@@ -4,7 +4,6 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { HttpLink } from "apollo-link-http";
-import { onError } from "apollo-link-error";
 
 import App from "./App";
 import { AuthProvider } from "./context/auth";

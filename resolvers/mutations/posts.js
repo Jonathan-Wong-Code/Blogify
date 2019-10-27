@@ -1,5 +1,5 @@
 const Post = require("../../models/posts");
-const { checkAuth } = require("../../utils/utils");
+const { checkAuth, checkAdmin } = require("../../utils/utils");
 const catchAsync = require("../../utils/catchAsync");
 
 const Posts = {
@@ -12,7 +12,8 @@ const Posts = {
     info
   ) {
     checkAuth(req);
-    const post = await Post.create({ ...data, author: req.user._id });
+    let post = await Post.create({ ...data, author: req.user._id });
+    post = await post.populate("author").execPopulate();
     return post;
   },
 
@@ -42,7 +43,7 @@ const Posts = {
     return post;
   },
 
-  async deletePost(
+  async deleteOwnedPost(
     parent,
     { id },
     {
@@ -59,7 +60,21 @@ const Posts = {
     }
 
     return post;
-  }
+  },
+
+  deleteAnyPost: catchAsync(
+    async (parent, { id }, { request: { req } }, info) => {
+      checkAuth(req);
+      checkAdmin(req);
+
+      const post = await Post.findByIdAndDelete({ _id: id });
+      if (!post) {
+        throw new Error("No post found");
+      }
+
+      return post;
+    }
+  )
 };
 
 module.exports = Posts;

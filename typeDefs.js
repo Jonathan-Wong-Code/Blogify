@@ -29,7 +29,9 @@ const typeDefs = gql`
 
     createPost(data: CreatePostInput!): Post!
     updatePost(id: ID!, data: UpdatePostInput!): Post!
-    deletePost(id: ID!): Post!
+    deleteOwnedPost(id: ID!): Post!
+
+    deleteAnyPost(id: ID!): Post!
 
     createComment(postId: ID!, data: CreateCommentInput): Comment!
     updateComment(commentId: ID!, data: UpdateCommentInput!): Comment!

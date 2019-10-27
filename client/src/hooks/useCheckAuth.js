@@ -11,6 +11,7 @@ const CHECK_LOGGED_IN = gql`
       user {
         name
         email
+        role
       }
     }
   }

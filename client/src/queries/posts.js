@@ -21,6 +21,10 @@ export const GET_ALL_POSTS = gql`
     ) {
       title
       body
+      _id
+      author {
+        name
+      }
     }
   }
 `;
