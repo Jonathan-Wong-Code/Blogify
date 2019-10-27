@@ -5,7 +5,7 @@ import { Switch, Route, Router } from "react-router-dom";
 import AllPostsPage from "../components/AllPostsPage";
 import Login from "../components/Login";
 import Header from "../components/Header";
-
+import Signup from "../components/Signup";
 function UnauthenticatedApp() {
   const history = createBrowserHistory();
 
@@ -16,6 +16,7 @@ function UnauthenticatedApp() {
         <Switch>
           <Route exact path="/" component={AllPostsPage} />
           <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </>
     </Router>

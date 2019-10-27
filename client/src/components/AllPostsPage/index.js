@@ -1,31 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-
-const GET_ALL_POSTS = gql`
-  query allPosts(
-    $title: String
-    $body: String
-    $published: Boolean
-    $sort: String
-    $limit: Float
-    $page: Float
-  ) {
-    allPosts(
-      queryParams: {
-        title: $title
-        body: $body
-        published: $published
-        sort: $sort
-        limit: $limit
-        page: $page
-      }
-    ) {
-      title
-      body
-    }
-  }
-`;
+import { GET_ALL_POSTS } from "../../queries/posts";
 
 export default function AllPostsPage() {
   const { data, error, loading } = useQuery(GET_ALL_POSTS, {});

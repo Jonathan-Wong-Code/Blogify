@@ -1,25 +1,12 @@
 import React, { useReducer } from "react";
 
 import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-
 import { useHistory } from "react-router-dom";
 
 import reducer from "../../reducers/stateReducer";
 import { useAuthDispatch } from "../../context/auth";
 import { LOGIN } from "../../constants";
-
-export const LOGIN_MUTATION = gql`
-  mutation login($email: String!, $password: String!) {
-    login(data: { email: $email, password: $password }) {
-      token
-      user {
-        name
-        email
-      }
-    }
-  }
-`;
+import { LOGIN_MUTATION } from "../../mutations/auth";
 
 export default function Login() {
   const [{ email, password }, setState] = useReducer(reducer, {

@@ -7,11 +7,13 @@ const catchAsync = require("../utils//catchAsync");
 
 const Query = {
   users: catchAsync(async (parent, args, { request: { req } }, info) => {
+    console.log("hi");
     checkAuth(req);
     checkAdmin(req);
     const users = await User.find()
       .populate({ path: "posts", populate: { path: "comments" } })
       .populate("comments");
+
     return users;
   }),
 

@@ -19,14 +19,6 @@ const client = new ApolloClient({
   link
 });
 
-cache.writeData({
-  data: {
-    users: [],
-    posts: [],
-    comments: []
-  }
-});
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <AuthProvider>

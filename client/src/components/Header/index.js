@@ -1,18 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import gql from "graphql-tag";
 
 import { useMutation } from "@apollo/react-hooks";
 import { useAuthState, useAuthDispatch } from "../../context/auth";
 import { LOGOUT } from "../../constants";
-
-const LOGOUT_MUTATION = gql`
-  mutation logout {
-    logout {
-      message
-    }
-  }
-`;
+import { LOGOUT_MUTATION } from "../../mutations/auth";
 
 function Header() {
   const { user } = useAuthState();
