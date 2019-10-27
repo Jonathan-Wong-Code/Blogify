@@ -10,6 +10,7 @@ const isAuthenticated = require("./middleware/auth");
 const app = express();
 const dotenv = require("dotenv");
 const path = "/graphql";
+dotenv.config({ path: "./config.env" });
 
 app.use(express.json());
 
@@ -20,11 +21,11 @@ const corsOptions = {
 
 app.use(path, isAuthenticated);
 app.use(cookieParser());
-dotenv.config({ path: "./config.env" });
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
   context: request => ({ request })
 });
 

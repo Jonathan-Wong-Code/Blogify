@@ -1,10 +1,10 @@
 import React, { useReducer } from "react";
 
 import { useMutation } from "@apollo/react-hooks";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import reducer from "../../reducers/stateReducer";
-import { useAuthDispatch } from "../../context/auth";
+import { useAuthDispatch, useAuthState } from "../../context/auth";
 import { LOGIN } from "../../constants";
 import { LOGIN_MUTATION } from "../../mutations/auth";
 
@@ -20,7 +20,7 @@ export default function Login() {
   const [login, { error, loading }] = useMutation(LOGIN_MUTATION, {
     onCompleted: ({ login: { user } }) => {
       dispatch({ type: LOGIN, user });
-      history.push("/");
+      history.push("/allUsers");
     },
     //Hacky fix fo Error tests but still an open issue in Apollo
     onError: () => {}

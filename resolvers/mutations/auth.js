@@ -19,6 +19,7 @@ module.exports = {
   signup: catchAsync(async (parent, { data }, { request: { res } }, info) => {
     const { name, email, password, confirmPassword } = data;
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       throw new Error("Account exists with this email");
     }

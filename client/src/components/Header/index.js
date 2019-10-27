@@ -21,11 +21,11 @@ function Header() {
           <li>
             <Link to="/">All Posts</Link>
           </li>
+          <li>
+            <Link to="/allUsers">All Users</Link>
+          </li>
           {user && (
             <>
-              <li>
-                <Link to="/allUsers">All Users</Link>
-              </li>
               <li>
                 <button onClick={logout} aria-busy={loading}>
                   Log{loading ? "ging out..." : "out"}

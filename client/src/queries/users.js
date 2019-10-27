@@ -6,9 +6,6 @@ export const GET_ALL_USERS = gql`
       name
       email
       _id
-      posts {
-        title
-      }
     }
   }
 `;

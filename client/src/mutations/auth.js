@@ -35,8 +35,12 @@ export const SIGNUP_MUTATION = gql`
         confirmPassword: $confirmPassword
       }
     ) {
-      name
-      email
+      token
+      user {
+        name
+        email
+        _id
+      }
     }
   }
 `;
