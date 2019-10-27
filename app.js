@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const resolvers = require("./resolvers");
 const typeDefs = require("./typeDefs");
-
+const cookieParser = require("cookie-parser");
 const isAuthenticated = require("./middleware/auth");
 
 const app = express();
@@ -19,7 +19,7 @@ const corsOptions = {
 };
 
 app.use(path, isAuthenticated);
-
+app.use(cookieParser());
 dotenv.config({ path: "./config.env" });
 
 const server = new ApolloServer({

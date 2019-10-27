@@ -9,7 +9,7 @@ const createSendToken = (id, res) => {
   const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "90d" });
   res.cookie("jwt", token, {
     httpOnly: true,
-    expiry: Date.now() + 24 * 60 * 60 * 1000
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
   });
 
   return token;
@@ -50,13 +50,12 @@ module.exports = {
   }),
 
   logout: catchAsync(async (parent, args, { request: { res } }, info) => {
-    const token = jwt.sign("badidea", "not a good secret");
+    const token = jwt.sign("jwt", "loggedout");
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      expiry: Date.now() + 1
+      expires: new Date(Date.now() + 1)
     });
-
     return { message: "Logging out..." };
   }),
 
