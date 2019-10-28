@@ -41,7 +41,6 @@ postSchema.virtual("comments", {
 });
 
 postSchema.pre(/^find/, function(next) {
-  console.log("Author is here");
   this.populate({ path: "author" });
   next();
 });

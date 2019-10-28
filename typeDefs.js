@@ -29,7 +29,7 @@ const typeDefs = gql`
 
     createPost(data: CreatePostInput!): Post!
     updatePost(id: ID!, data: UpdatePostInput!): Post!
-    deleteOwnedPost(id: ID!): Post!
+    deleteMyPost(id: ID!): Post!
 
     deleteAnyPost(id: ID!): Post!
 

@@ -18,9 +18,17 @@ export const UPDATE_POST = gql`
   ${POST_W_AUTHOR}
 `;
 
-export const DELETE_POST = gql`
+export const DELETE_ANY_POST = gql`
   mutation deleteAnyPost($id: ID!) {
     deleteAnyPost(id: $id) {
+      _id
+    }
+  }
+`;
+
+export const DELETE_MY_POST = gql`
+  mutation deleteMyPost($id: ID!) {
+    deleteMyPost(id: $id) {
       _id
     }
   }

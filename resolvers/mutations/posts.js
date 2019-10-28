@@ -43,7 +43,7 @@ const Posts = {
     return post;
   },
 
-  async deleteOwnedPost(
+  async deleteMyPost(
     parent,
     { id },
     {

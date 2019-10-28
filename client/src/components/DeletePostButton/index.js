@@ -1,9 +1,11 @@
 import React from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { DELETE_POST } from "../../mutations/posts";
-import { GET_ALL_POSTS } from "../../queries/posts";
-export default function DeletePostButton({ id }) {
-  const [deleteAnyPost, { loading, error }] = useMutation(DELETE_POST, {
+import { DELETE_ANY_POST, DELETE_MY_POST } from "../../mutations/posts";
+import { GET_ALL_POSTS, GET_MY_POSTS } from "../../queries/posts";
+
+export default function DeletePostButton({ id, type }) {
+  // Delete for Admin
+  const [deleteAnyPost, { loading, error }] = useMutation(DELETE_ANY_POST, {
     update: (
       cache,
       {
@@ -20,21 +22,58 @@ export default function DeletePostButton({ id }) {
     }
   });
 
+  // Delete for user
+  const [
+    deleteMyPost,
+    { loading: myPostLoading, error: myPostError }
+  ] = useMutation(DELETE_MY_POST, {
+    update: (
+      cache,
+      {
+        data: {
+          deleteMyPost: { _id }
+        }
+      }
+    ) => {
+      const { myPosts } = cache.readQuery({ query: GET_MY_POSTS });
+      cache.writeQuery({
+        query: GET_MY_POSTS,
+        data: { myPosts: myPosts.filter(post => post._id !== _id) }
+      });
+    }
+  });
+
   const handleClick = () => {
-    deleteAnyPost({
+    if (type === "any-post") {
+      return deleteAnyPost({
+        variables: { id },
+
+        optimisticResponse: {
+          __typename: "Mutation",
+          deleteAnyPost: {
+            __typename: "Post",
+            _id: id
+          }
+        }
+      });
+    }
+
+    return deleteMyPost({
       variables: { id },
 
       optimisticResponse: {
-        __typename: "Mutation",
-        deleteAnyPost: {
+        __typename: "MUTATION",
+        deleteMyPost: {
           __typename: "Post",
           _id: id
         }
       }
     });
   };
-  if (error) return <p>{error.message}</p>;
+  if (error || myPostError) return <p>{error.message}</p>;
   return (
-    <button onClick={handleClick}>Delet{loading ? "ing" : "e"} post</button>
+    <button onClick={handleClick}>
+      Delet{loading || myPostLoading ? "ing" : "e"} post
+    </button>
   );
 }
