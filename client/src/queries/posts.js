@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { POST_W_AUTHOR } from "../fragments";
 
 export const GET_ALL_POSTS = gql`
   query allPosts(
@@ -19,12 +20,8 @@ export const GET_ALL_POSTS = gql`
         page: $page
       }
     ) {
-      title
-      body
-      _id
-      author {
-        name
-      }
+      ...PostWithAuthor
     }
   }
+  ${POST_W_AUTHOR}
 `;

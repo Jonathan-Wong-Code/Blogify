@@ -6,6 +6,7 @@ import AllPostsPage from "./components/AllPostsPage";
 import AllUsersPage from "./components/AllUsersPage";
 import CreatePost from "./components/CreatePost";
 import Login from "./components/Login";
+import MyPostsPage from "./components/MyPostsPage";
 import MyProfile from "./components/MyProfile";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
@@ -29,6 +30,7 @@ function App() {
         <Header />
         <Switch>
           <Route exact path="/" component={AllPostsPage} />
+          <PrivateRoute path="/my-posts" component={MyPostsPage} />
           <PrivateRoute exact path="/allUsers" component={AllUsersPage} />
           <PrivateRoute path="/create-post" component={CreatePost} />
           <PrivateRoute path="/update-post/:id" compnent={UpdatePost} />

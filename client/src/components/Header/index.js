@@ -30,6 +30,9 @@ function Header() {
                 <Link to="create-post">Create Post</Link>
               </li>
               <li>
+                <Link to="my-posts">My Posts</Link>
+              </li>
+              <li>
                 <button onClick={logout} aria-busy={loading}>
                   Log{loading ? "ging out..." : "out"}
                 </button>

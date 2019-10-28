@@ -1,29 +1,21 @@
 import gql from "graphql-tag";
-
+import { POST_W_AUTHOR } from "../fragments";
 export const CREATE_POST = gql`
   mutation createPost($title: String!, $body: String!) {
     createPost(data: { title: $title, body: $body }) {
-      _id
-      title
-      body
-      author {
-        name
-      }
+      ...PostWithAuthor
     }
   }
+  ${POST_W_AUTHOR}
 `;
 
 export const UPDATE_POST = gql`
   mutation updatePost($title: String!, $body: String!) {
     updatePost(data: { title: $title, body: $body }) {
-      _id
-      title
-      body
-      author {
-        name
-      }
+      ...PostWithAuthor
     }
   }
+  ${POST_W_AUTHOR}
 `;
 
 export const DELETE_POST = gql`
