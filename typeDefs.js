@@ -8,7 +8,8 @@ const typeDefs = gql`
     myPosts(queryParams: PostQueryParams): [Post!]!
     allPosts(queryParams: PostQueryParams): [Post!]!
     comments(queryParams: CommentQueryParams): [Comment!]!
-    post: Post!
+    publicPost(id: ID!): Post!
+    privatePost(id: ID!): Post!
   }
 
   type Mutation {

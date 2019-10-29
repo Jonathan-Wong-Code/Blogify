@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import MyPostsPage from "./components/MyPostsPage";
 import MyProfile from "./components/MyProfile";
 import Signup from "./components/Signup";
+import SinglePostPage from "./components/SinglePostPage";
 import Header from "./components/Header";
 import UpdatePost from "./components/UpdatePost";
 
@@ -33,6 +34,7 @@ function App() {
           <PrivateRoute path="/my-posts" component={MyPostsPage} />
           <PrivateRoute exact path="/allUsers" component={AllUsersPage} />
           <PrivateRoute path="/create-post" component={CreatePost} />
+          <PublicRoute path="/single-post/:id" component={SinglePostPage} />
           <PrivateRoute path="/update-post/:id" compnent={UpdatePost} />
           <PublicRoute path="/login" component={Login} />
           <PrivateRoute path="/my-profile" component={MyProfile} />

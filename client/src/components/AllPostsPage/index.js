@@ -1,7 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
+
 import { GET_ALL_POSTS } from "../../queries/posts";
 import PostListItem from "../PostListItem";
+
 export default function AllPostsPage() {
   const { data, error, loading } = useQuery(GET_ALL_POSTS, {
     fetchPolicy: "cache-first"

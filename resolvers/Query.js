@@ -17,9 +17,7 @@ const Query = {
   }),
 
   user: catchAsync(async (parent, { id }, { request: { req } }, info) => {
-    if (!req.isAuth) {
-      throw new Error("Must be authenticated!");
-    }
+    checkAuth(req);
     const user = await User.findById({ _id: id }).populate({
       path: "posts",
       populate: "comments"
@@ -33,9 +31,8 @@ const Query = {
 
   myPosts: catchAsync(
     async (parent, { queryParams = {} }, { request: { req } }, info) => {
-      if (!req.isAuth) {
-        throw new Error("Must be authenticated to see your posts");
-      }
+      checkAuth(req);
+
       const features = new APIFeatures(
         Post.find({ author: req.user._id }).populate({
           path: "comments",
@@ -68,6 +65,25 @@ const Query = {
       return posts;
     }
   ),
+  // Fetch a public post
+  publicPost: catchAsync((parent, { id }, ctx, info) => {
+    const post = Post.findOne({ published: true, _id: id });
+    if (!post) {
+      throw new Error("404 Post not found");
+    }
+
+    return post;
+  }),
+
+  privatePost: catchAsync((parent, { id }, { request: { req } }, info) => {
+    checkAuth(req);
+    const post = Post.findOne({ _id: id, author: req.user._id });
+    if (!post) {
+      throw new Error("404 Post not found");
+    }
+
+    return post;
+  }),
 
   comments: catchAsync(
     async (
