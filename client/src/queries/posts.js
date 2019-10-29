@@ -50,3 +50,21 @@ export const GET_MY_POSTS = gql`
   }
   ${POST_W_AUTHOR}
 `;
+
+export const GET_PUBLIC_POST = gql`
+  query publicPost($id: ID!) {
+    publicPost(id: $id) {
+      ...PostWithAuthor
+    }
+  }
+  ${POST_W_AUTHOR}
+`;
+
+export const GET_PRIVATE_POST = gql`
+  query privatePost($id: ID) {
+    privatePost(id: $id) {
+      ...PostWithAuthor
+    }
+  }
+  ${POST_W_AUTHOR}
+`;
