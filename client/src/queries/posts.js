@@ -61,7 +61,7 @@ export const GET_PUBLIC_POST = gql`
 `;
 
 export const GET_PRIVATE_POST = gql`
-  query privatePost($id: ID) {
+  query privatePost($id: ID!) {
     privatePost(id: $id) {
       ...PostWithAuthor
     }

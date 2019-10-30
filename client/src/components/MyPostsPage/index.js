@@ -13,7 +13,7 @@ export default function MyPostsPage() {
       <h2>My Current Posts</h2>
       <ul>
         {myPosts.map(post => (
-          <PostListItem key={post._id} post={post} type="myPost" />
+          <PostListItem key={post._id} post={post} type="my-post" />
         ))}
       </ul>
     </section>

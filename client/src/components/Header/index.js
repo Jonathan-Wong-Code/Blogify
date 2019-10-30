@@ -27,10 +27,10 @@ function Header() {
           {user && (
             <>
               <li>
-                <Link to="create-post">Create Post</Link>
+                <Link to="/create-post">Create Post</Link>
               </li>
               <li>
-                <Link to="my-posts">My Posts</Link>
+                <Link to="/my-posts">My Posts</Link>
               </li>
               <li>
                 <button onClick={logout} aria-busy={loading}>
