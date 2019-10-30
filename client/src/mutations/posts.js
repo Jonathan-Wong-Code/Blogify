@@ -10,9 +10,18 @@ export const CREATE_POST = gql`
 `;
 
 export const UPDATE_POST = gql`
-  mutation updatePost($title: String!, $body: String!) {
-    updatePost(data: { title: $title, body: $body }) {
+  mutation updatePost(
+    $title: String
+    $body: String
+    $published: Boolean
+    $id: ID!
+  ) {
+    updatePost(
+      id: $id
+      data: { title: $title, body: $body, published: $published }
+    ) {
       ...PostWithAuthor
+      published
     }
   }
   ${POST_W_AUTHOR}

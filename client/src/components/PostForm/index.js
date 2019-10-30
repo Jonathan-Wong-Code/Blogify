@@ -17,7 +17,6 @@ function PostForm({
   });
 
   const { user } = useAuthState();
-
   const onSubmit = e => {
     e.preventDefault();
     if (type === "create") {
@@ -42,8 +41,14 @@ function PostForm({
         }
       });
     }
-
-    updatePost();
+    console.log(title, body, editedPost);
+    updatePost({
+      variables: {
+        title,
+        body,
+        id: editedPost._id
+      }
+    });
   };
 
   if (loading) return <p>Loading...</p>;

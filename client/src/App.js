@@ -36,7 +36,7 @@ function App() {
           <PrivateRoute exact path="/my-posts" component={MyPostsPage} />
           <PrivateRoute exact path="/allUsers" component={AllUsersPage} />
           <PrivateRoute path="/create-post" component={CreatePost} />
-          <PrivateRoute path="/update-post/:id" compnent={UpdatePost} />
+          <PrivateRoute path="/update-post/:id" component={UpdatePost} />
           <PrivateRoute path="/my-profile" component={MyProfile} />
           <Route path="/public-post/:id" component={PublicPost} />
           <PrivateRoute path="/my-posts/:id" component={PrivatePost} />

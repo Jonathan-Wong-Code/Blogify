@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
-
+import { Link } from "react-router-dom";
 import { GET_PRIVATE_POST } from "../../queries/posts";
 import SinglePostPage from "../SinglePostPage";
 
@@ -19,6 +19,7 @@ export default function PrivatePost() {
   return (
     <>
       <SinglePostPage post={post} />
+      <Link to={`/update-post/${post._id}`}> Edit post </Link>
     </>
   );
 }
