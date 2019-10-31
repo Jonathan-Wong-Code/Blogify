@@ -28,12 +28,12 @@ const client = new ApolloClient({
   link
 });
 
-// cache.writeData({
-//   data: {
-//     users: [],
-//     posts: []
-//   }
-// });
+cache.writeData({
+  data: {
+    users: [],
+    posts: []
+  }
+});
 
 ReactDOM.render(
   <ApolloProvider client={client}>

@@ -47,6 +47,20 @@ function PostForm({
         title,
         body,
         id: editedPost._id
+      },
+
+      optimisticResponse: {
+        __typename: "Mutation",
+        updatePost: {
+          __typename: "Post",
+          title,
+          body,
+          _id: uuidv4(),
+          author: {
+            __typename: "User",
+            name: user.name
+          }
+        }
       }
     });
   };

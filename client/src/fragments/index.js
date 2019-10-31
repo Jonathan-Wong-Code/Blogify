@@ -5,8 +5,10 @@ export const POST_W_AUTHOR = gql`
     title
     body
     _id
+    __typename
     author {
       name
+      __typename
     }
   }
 `;

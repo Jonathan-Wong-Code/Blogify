@@ -4,7 +4,8 @@ import "@testing-library/jest-dom/extend-expect";
 import { MockedProvider } from "@apollo/react-testing";
 import { GraphQLError } from "graphql";
 
-import Login, { LOGIN_MUTATION } from "..";
+import Login from "..";
+import { LOGIN_MUTATION } from "../../../mutations/auth";
 import { renderRouter } from "../../../testUtils/utils";
 import { useAuthDispatch } from "../../../context/auth";
 
@@ -18,7 +19,7 @@ useAuthDispatch.mockImplementation(() => {
 
 const login = {
   token: "token",
-  user: { name: "testName", email: "test@test.com" }
+  user: { name: "testName", email: "test@test.com", role: "testRole" }
 };
 
 const successMock = [
@@ -58,7 +59,7 @@ beforeEach(() => {
 afterEach(cleanup);
 
 describe("<Login>", () => {
-  it("renders", () => {
+  it("renders", async () => {
     renderRouter(
       <MockedProvider mocks={successMock} addTypename={false}>
         <Login />
@@ -67,7 +68,7 @@ describe("<Login>", () => {
   });
 
   it("Should allow the user to enter an email and password to login", async () => {
-    const { getByTestId, getByLabelText, container } = renderRouter(
+    const { getByTestId, getByLabelText } = renderRouter(
       <MockedProvider mocks={successMock} addTypename={false}>
         <Login />
       </MockedProvider>

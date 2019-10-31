@@ -6,8 +6,8 @@ import { useParams, useHistory } from "react-router-dom";
 import { UPDATE_POST } from "../../mutations/posts";
 import { GET_PRIVATE_POST } from "../../queries/posts";
 
-export default function UpdatePost() {
-  const { id } = useParams();
+export default function UpdatePost({ match }) {
+  const { id } = match.params;
   const history = useHistory();
 
   const [
@@ -15,11 +15,6 @@ export default function UpdatePost() {
     { loading: updateLoading, error: updateError }
   ] = useMutation(UPDATE_POST, {
     update: (cache, { data: { updatePost } }) => {
-      const post = cache.readQuery({
-        query: GET_PRIVATE_POST,
-        variables: { id: updatePost._id }
-      });
-
       // We can pass variables after our query if it takes params
       cache.writeData({
         query: GET_PRIVATE_POST,
@@ -29,10 +24,10 @@ export default function UpdatePost() {
     },
 
     onCompleted: ({ updatePost }) => {
-      console.log(updatePost);
       history.push(`/my-posts/${updatePost._id}`);
     }
   });
+  console.log(id);
 
   const { error, data, loading } = useQuery(GET_PRIVATE_POST, {
     variables: { id }
@@ -40,7 +35,6 @@ export default function UpdatePost() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
   const { privatePost: editedPost } = data;
-
   return (
     <PostForm
       type="update"
