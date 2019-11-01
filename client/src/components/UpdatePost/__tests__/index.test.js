@@ -102,6 +102,21 @@ const updateFailure = [
   }
 ];
 
+const queryFailure = [
+  {
+    request: {
+      query: GET_PRIVATE_POST,
+      variables: {
+        id: post._id
+      }
+    },
+
+    result: {
+      errors: [new GraphQLError("Query error")]
+    }
+  }
+];
+
 jest.mock("../../../context/auth.js");
 
 useAuthState.mockImplementation(() => ({ user: { name: "Jon" } }));
@@ -186,5 +201,18 @@ describe("<UpdatePost>", () => {
     expect(getByTestId("post-form-mutation-error")).toBeDefined();
     expect(updateMutationCalled).toBe(false);
     expect(history.push).not.toHaveBeenCalled();
+  });
+
+  it("Should return an error from the GraphQL query", async () => {
+    const { getByTestId, queryByTestId } = renderRouter(
+      <MockedProvider mocks={queryFailure} addTypename={false}>
+        <UpdatePost match={match} history={history} />
+      </MockedProvider>
+    );
+    expect(getByTestId("update-post-query-loading")).toBeDefined();
+    expect(queryByTestId("update-post-query-error")).toBeNull();
+    await wait();
+    expect(queryByTestId("update-post-query-loading")).toBeNull();
+    expect(queryByTestId("update-post-query-error")).toBeDefined();
   });
 });
