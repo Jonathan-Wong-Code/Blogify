@@ -33,6 +33,7 @@ function PostForm({
             _id: uuidv4(),
             title,
             body,
+
             author: {
               __typename: "User",
               name: user.name
@@ -41,12 +42,13 @@ function PostForm({
         }
       });
     }
-    console.log(title, body, editedPost);
+
     updatePost({
       variables: {
         title,
         body,
-        id: editedPost._id
+        id: editedPost._id,
+        published: editedPost ? editedPost.published : true
       },
 
       optimisticResponse: {
@@ -55,6 +57,7 @@ function PostForm({
           __typename: "Post",
           title,
           body,
+          published: editedPost ? editedPost.published : true,
           _id: uuidv4(),
           author: {
             __typename: "User",
@@ -65,10 +68,11 @@ function PostForm({
     });
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return <p data-testid="post-form-mutation-loading">Loading...</p>;
   return (
-    <section>
-      <form action="" onSubmit={onSubmit}>
+    <section data-testid="post-form-section">
+      <form action="" onSubmit={onSubmit} data-testid="post-form-form">
         <label htmlFor="post-title">Title:</label>
         <input
           type="text"
@@ -87,7 +91,7 @@ function PostForm({
         />
         <button>Submit</button>
       </form>
-      {error && <p>{error.message}</p>}
+      {error && <p data-testid="post-form-mutation-error">{error.message}</p>}
     </section>
   );
 }

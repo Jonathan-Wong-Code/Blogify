@@ -1,14 +1,12 @@
 import React from "react";
 import PostForm from "../PostForm";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { useParams, useHistory } from "react-router-dom";
 
 import { UPDATE_POST } from "../../mutations/posts";
 import { GET_PRIVATE_POST } from "../../queries/posts";
 
-export default function UpdatePost({ match }) {
+function UpdatePost({ history, match }) {
   const { id } = match.params;
-  const history = useHistory();
 
   const [
     updatePost,
@@ -27,13 +25,13 @@ export default function UpdatePost({ match }) {
       history.push(`/my-posts/${updatePost._id}`);
     }
   });
-  console.log(id);
 
   const { error, data, loading } = useQuery(GET_PRIVATE_POST, {
     variables: { id }
   });
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+  if (loading) return <p data-testid="update-post-query-loading">Loading...</p>;
+  if (error)
+    return <p data-testid="update-post-query-error">{error.message}</p>;
   const { privatePost: editedPost } = data;
   return (
     <PostForm
@@ -45,3 +43,5 @@ export default function UpdatePost({ match }) {
     />
   );
 }
+
+export default UpdatePost;

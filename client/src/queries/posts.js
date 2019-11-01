@@ -64,6 +64,7 @@ export const GET_PRIVATE_POST = gql`
   query privatePost($id: ID!) {
     privatePost(id: $id) {
       ...PostWithAuthor
+      published
     }
   }
   ${POST_W_AUTHOR}

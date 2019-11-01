@@ -10,7 +10,6 @@ import { renderRouter } from "../../../testUtils/utils";
 import { useAuthDispatch } from "../../../context/auth";
 
 jest.mock("../../../context/auth.js");
-
 const dispatch = jest.fn();
 
 useAuthDispatch.mockImplementation(() => {
