@@ -2,18 +2,16 @@ import React from "react";
 import { MockedProvider } from "@apollo/react-testing";
 import "@testing-library/jest-dom/extend-expect";
 import { renderRouter } from "../../../testUtils/utils";
-import { UPDATE_POST } from "../../../mutations/posts";
-import { GET_PRIVATE_POST } from "../../../queries/posts";
 import { fireEvent, wait, cleanup } from "@testing-library/react";
 
 import UpdatePost from "..";
-import { GraphQLError } from "graphql";
 import { useAuthState } from "../../../context/auth";
 
-jest.mock("../../../context/auth.js");
+import { GET_PRIVATE_POST } from "../../../queries/posts";
+import { UPDATE_POST } from "../../../mutations/posts";
+import { GraphQLError } from "graphql";
 
-useAuthState.mockImplementation(() => ({ user: { name: "Jon" } }));
-const post = {
+export const post = {
   title: "testTitle",
   body: "Testing body",
   _id: "test1234",
@@ -25,7 +23,7 @@ const post = {
   }
 };
 
-const updatePost = {
+export const updatePost = {
   __typename: "Post",
   title: "Testing title mutation",
   body: "Testing body mutation",
@@ -37,9 +35,9 @@ const updatePost = {
   }
 };
 
-let updateMutationCalled;
+export let updateMutationCalled;
 
-const updateSuccess = [
+export const updateSuccess = [
   {
     request: {
       query: GET_PRIVATE_POST,
@@ -72,6 +70,42 @@ const updateSuccess = [
   }
 ];
 
+const updateFailure = [
+  {
+    request: {
+      query: GET_PRIVATE_POST,
+      variables: {
+        id: post._id
+      }
+    },
+
+    result: {
+      data: {
+        privatePost: post
+      }
+    }
+  },
+  {
+    request: {
+      query: UPDATE_POST,
+      variables: {
+        title: updatePost.title,
+        body: updatePost.body,
+        id: updatePost._id,
+        published: updatePost.published
+      }
+    },
+
+    result: {
+      errors: [new GraphQLError("Error")]
+    }
+  }
+];
+
+jest.mock("../../../context/auth.js");
+
+useAuthState.mockImplementation(() => ({ user: { name: "Jon" } }));
+
 const match = { params: { id: "test1234" } };
 const history = { push: jest.fn() };
 
@@ -101,12 +135,12 @@ describe("<UpdatePost>", () => {
   });
 
   it("Allows the user to fill in the form data to update the post", async () => {
-    const { getByTestId, queryByTestId, getByLabelText } = renderRouter(
+    const { getByTestId, getByLabelText } = renderRouter(
       <MockedProvider mocks={updateSuccess} addTypename={false}>
         <UpdatePost match={match} history={history} />
       </MockedProvider>
     );
-
+    // await query data
     await wait();
 
     const titleField = getByLabelText("Title:");
@@ -122,10 +156,35 @@ describe("<UpdatePost>", () => {
     expect(bodyField).toHaveValue("Testing body mutation");
 
     fireEvent.submit(getByTestId("post-form-form"));
-
+    // wait for mutation
     await wait();
 
     expect(updateMutationCalled).toBe(true);
     expect(history.push).toHaveBeenCalledTimes(1);
+  });
+
+  it("Returns an error from the graphQL API when update is attempted", async () => {
+    const { getByTestId, queryByTestId, getByLabelText } = renderRouter(
+      <MockedProvider mocks={updateFailure} addTypename={false}>
+        <UpdatePost match={match} history={history} />
+      </MockedProvider>
+    );
+    // Wait for query data
+    await wait();
+    expect(queryByTestId("post-form-mutation-error")).toBeNull();
+    const titleField = getByLabelText("Title:");
+    const bodyField = getByLabelText("Body:");
+
+    fireEvent.change(titleField, {
+      target: { value: "Testing title mutation" }
+    });
+
+    fireEvent.change(bodyField, { target: { value: "Testing body mutation" } });
+    fireEvent.submit(getByTestId("post-form-form"));
+    await wait();
+    expect(getByTestId("post-form-mutation-error")).toHaveTextContent("Error");
+    expect(getByTestId("post-form-mutation-error")).toBeDefined();
+    expect(updateMutationCalled).toBe(false);
+    expect(history.push).not.toHaveBeenCalled();
   });
 });

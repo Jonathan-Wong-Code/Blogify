@@ -21,6 +21,8 @@ function UpdatePost({ history, match }) {
       });
     },
 
+    onError: () => {},
+
     onCompleted: ({ updatePost }) => {
       history.push(`/my-posts/${updatePost._id}`);
     }
