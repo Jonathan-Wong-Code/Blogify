@@ -16,7 +16,7 @@ function UpdatePost({ history, match }) {
       // We can pass variables after our query if it takes params
       cache.writeData({
         query: GET_PRIVATE_POST,
-        variables: { id: updatePost._id },
+        variables: { id },
         data: { privatePost: updatePost }
       });
     },
@@ -29,7 +29,8 @@ function UpdatePost({ history, match }) {
   });
 
   const { error, data, loading } = useQuery(GET_PRIVATE_POST, {
-    variables: { id }
+    variables: { id },
+    fetchPolicy: "cache-first"
   });
   if (loading) return <p data-testid="update-post-query-loading">Loading...</p>;
   if (error)

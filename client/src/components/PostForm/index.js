@@ -58,7 +58,7 @@ function PostForm({
           title,
           body,
           published: editedPost ? editedPost.published : true,
-          _id: uuidv4(),
+          _id: editedPost._id,
           author: {
             __typename: "User",
             name: user.name
