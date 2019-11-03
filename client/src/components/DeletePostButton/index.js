@@ -14,11 +14,31 @@ export default function DeletePostButton({ id, type }) {
         }
       }
     ) => {
-      const { allPosts } = cache.readQuery({ query: GET_ALL_POSTS });
-      cache.writeQuery({
-        query: GET_ALL_POSTS,
-        data: { allPosts: allPosts.filter(post => post._id !== _id) }
-      });
+      try {
+        const data = cache.readQuery({ query: GET_ALL_POSTS });
+        cache.writeQuery({
+          query: GET_ALL_POSTS,
+          data: {
+            ...data,
+            allPosts: data.allPosts.filter(post => post._id !== _id)
+          }
+        });
+      } catch (error) {
+        // Fail silently if no cache will fetch from network
+      }
+
+      try {
+        const myPostData = cache.readQuery({ query: GET_MY_POSTS });
+        cache.writeQuery({
+          query: GET_MY_POSTS,
+          data: {
+            ...myPostData,
+            myPosts: myPostData.myPosts.filter(post => post._id !== _id)
+          }
+        });
+      } catch (error) {
+        // Fail silently if no cache will fetch from network
+      }
     }
   });
 
@@ -35,11 +55,31 @@ export default function DeletePostButton({ id, type }) {
         }
       }
     ) => {
-      const { myPosts } = cache.readQuery({ query: GET_MY_POSTS });
-      cache.writeQuery({
-        query: GET_MY_POSTS,
-        data: { myPosts: myPosts.filter(post => post._id !== _id) }
-      });
+      try {
+        const data = cache.readQuery({ query: GET_ALL_POSTS });
+        cache.writeQuery({
+          query: GET_ALL_POSTS,
+          data: {
+            ...data,
+            allPosts: data.allPosts.filter(post => post._id !== _id)
+          }
+        });
+      } catch (error) {
+        // Fail silently if no cache will fetch from network
+      }
+
+      try {
+        const myPostData = cache.readQuery({ query: GET_MY_POSTS });
+        cache.writeQuery({
+          query: GET_MY_POSTS,
+          data: {
+            ...myPostData,
+            myPosts: myPostData.myPosts.filter(post => post._id !== _id)
+          }
+        });
+      } catch (error) {
+        // Fail silently if no cache will fetch from network
+      }
     }
   });
 
@@ -70,7 +110,8 @@ export default function DeletePostButton({ id, type }) {
       }
     });
   };
-  if (error || myPostError) return <p>{error.message}</p>;
+  if (error) return <p>{error.message}</p>;
+  if (myPostError) return <p>{myPostError.message}</p>;
   return (
     <button onClick={handleClick}>
       Delet{loading || myPostLoading ? "ing" : "e"} post

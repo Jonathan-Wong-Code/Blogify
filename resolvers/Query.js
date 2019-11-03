@@ -30,7 +30,7 @@ const Query = {
   }),
 
   myPosts: catchAsync(
-    async (parent, { queryParams = {} }, { request: { req } }, info) => {
+    async (parent, { queryParams }, { request: { req } }, info) => {
       checkAuth(req);
 
       const features = new APIFeatures(

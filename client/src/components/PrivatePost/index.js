@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
 import { GET_PRIVATE_POST } from "../../queries/posts";
 import SinglePostPage from "../SinglePostPage";
+import DeletePostButton from "../DeletePostButton";
 
 export default function PrivatePost() {
   const { id } = useParams();
@@ -18,8 +19,11 @@ export default function PrivatePost() {
   const { privatePost: post } = data;
   return (
     <>
-      <SinglePostPage post={post} />
-      <Link to={`/update-post/${post._id}`}> Edit post </Link>
+      <div className="post-container">
+        <SinglePostPage post={post} />
+        <Link to={`/update-post/${post._id}`}> Edit post </Link>
+        <DeletePostButton type="my-post" />
+      </div>
     </>
   );
 }

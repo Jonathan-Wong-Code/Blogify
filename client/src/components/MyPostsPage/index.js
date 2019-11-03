@@ -3,7 +3,9 @@ import { GET_MY_POSTS } from "../../queries/posts";
 import { useQuery } from "@apollo/react-hooks";
 import PostListItem from "../PostListItem";
 export default function MyPostsPage() {
-  const { data, error, loading } = useQuery(GET_MY_POSTS);
+  const { data, error, loading } = useQuery(GET_MY_POSTS, {
+    fetchPolicy: "cache-first"
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;

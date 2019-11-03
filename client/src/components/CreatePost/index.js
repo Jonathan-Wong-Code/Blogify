@@ -9,17 +9,25 @@ import { GET_ALL_POSTS, GET_MY_POSTS } from "../../queries/posts";
 export default function CreatePost() {
   const [createPost, { loading, error }] = useMutation(CREATE_POST, {
     update: (cache, { data: { createPost: post } }) => {
-      const { allPosts } = cache.readQuery({ query: GET_ALL_POSTS });
-      const { myPosts } = cache.readQuery({ query: GET_MY_POSTS });
-      cache.writeQuery({
-        query: GET_ALL_POSTS,
-        data: { allPosts: [...allPosts, post] }
-      });
+      try {
+        const { allPosts } = cache.readQuery({
+          query: GET_ALL_POSTS
+        });
+        cache.writeQuery({
+          query: GET_ALL_POSTS,
+          data: { allPosts: [...allPosts, post] }
+        });
+      } catch (error) {}
 
-      cache.writeQuery({
-        query: GET_MY_POSTS,
-        data: { myPosts: [...myPosts, post] }
-      });
+      try {
+        const { myPosts } = cache.readQuery({
+          query: GET_MY_POSTS
+        });
+        cache.writeQuery({
+          query: GET_MY_POSTS,
+          data: { myPosts: [...myPosts, post] }
+        });
+      } catch (error) {}
     },
 
     onCompleted: () => history.push("/")

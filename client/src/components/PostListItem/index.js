@@ -6,7 +6,7 @@ import { useAuthState } from "../../context/auth";
 
 export default function PostListItem({ post, type }) {
   const { user } = useAuthState();
-
+  console.log(post._id);
   return (
     <li key={post._id}>
       <h3>
@@ -22,7 +22,9 @@ export default function PostListItem({ post, type }) {
       </h3>
       <p>{post.body}</p>
       <p>By: {post.author.name}</p>
-      {user && user.role === "admin" && <DeletePostButton id={post._id} />}
+      {(user && user.role === "admin") || type === "my-post" ? (
+        <DeletePostButton id={post._id} type={type} />
+      ) : null}
     </li>
   );
 }
