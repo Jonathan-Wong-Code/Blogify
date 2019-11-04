@@ -2,10 +2,12 @@ import React, { useReducer } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "../../queries/posts";
 import reducer from "../../reducers/stateReducer";
+
 function PostFilterBar({ setState, page, limit }) {
-  const [{ title, body }, setFormState] = useReducer(reducer, {
+  const [{ title, body, sort }, setFormState] = useReducer(reducer, {
     title: "",
-    body: ""
+    body: "",
+    sort: ""
   });
 
   const client = useApolloClient();
@@ -18,7 +20,8 @@ function PostFilterBar({ setState, page, limit }) {
         title,
         body,
         limit: parseInt(limit, 10),
-        page
+        page,
+        sort
       }
     });
 
@@ -47,12 +50,24 @@ function PostFilterBar({ setState, page, limit }) {
           name="limit"
           id="search-limit"
           value={limit}
-          onChange={e => setState({ limit: e.target.value })}
+          onChange={e => setFormState({ limit: e.target.value })}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
           <option value={15}>15</option>
           <option value={20}>20</option>
+        </select>
+
+        <label htmlFor="search-sort">SortBy:</label>
+        <select
+          name="search-sort"
+          id="search-sort"
+          value={sort}
+          onChange={e => setFormState({ sort: e.target.value })}
+        >
+          <option value="-createdAt">createdAt</option>
+          <option value="title">title</option>
+          <option value="author">author</option>
         </select>
         <button type="submit">Submit</button>
       </form>

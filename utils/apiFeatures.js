@@ -28,8 +28,6 @@ class APIFeatures {
       queryStr.text = new RegExp(queryStr.text, "gi");
     }
 
-    console.log(queryStr);
-
     this.queryObject = this.queryObject.find(queryStr);
 
     return this;

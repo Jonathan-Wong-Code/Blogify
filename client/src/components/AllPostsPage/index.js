@@ -19,12 +19,12 @@ export default function AllPostsPage() {
     fetchPolicy: "cache-and-network",
     variables: {
       page,
-      limit
+      limit: parseInt(limit, 10)
     }
   });
 
   const { numPosts } = useFetchNumPublicPosts();
-  console.log(numPosts);
+
   useEffect(() => {
     if (!loading) {
       setState({ allPosts: data.allPosts });
