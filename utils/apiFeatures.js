@@ -1,7 +1,8 @@
 class APIFeatures {
-  constructor(queryObject, queryParams) {
+  constructor(queryObject, queryParams, type) {
     this.queryObject = queryObject;
     this.queryParams = queryParams;
+    this.type = type;
   }
 
   filter() {
@@ -17,7 +18,7 @@ class APIFeatures {
     );
 
     // Filtering for posts
-    if (queryStr.title || queryStr.body) {
+    if (this.type === "posts") {
       queryStr.title = new RegExp(queryStr.title, "gi");
       queryStr.body = new RegExp(queryStr.body, "gi");
     }
@@ -26,6 +27,8 @@ class APIFeatures {
     if (queryStr.text) {
       queryStr.text = new RegExp(queryStr.text, "gi");
     }
+
+    console.log(queryStr);
 
     this.queryObject = this.queryObject.find(queryStr);
 

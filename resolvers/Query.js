@@ -38,7 +38,8 @@ const Query = {
           path: "comments",
           populate: "author"
         }),
-        queryParams
+        queryParams,
+        "posts"
       )
         .filter()
         .sort()
@@ -50,12 +51,14 @@ const Query = {
 
   allPosts: catchAsync(
     async (parent, { queryParams = {} }, { request: { req } }, info) => {
+      console.log(queryParams);
       const features = new APIFeatures(
         Post.find({ published: true }).populate({
           path: "comments",
           populate: "author"
         }),
-        queryParams
+        queryParams,
+        "posts"
       )
         .filter()
         .sort()
@@ -100,6 +103,31 @@ const Query = {
       const comments = await features.queryObject;
 
       return comments;
+    }
+  ),
+
+  getNumPublicPosts: catchAsync(
+    async (parent, { data = {} }, { request: { req } }, info) => {
+      const { title, body } = data;
+      const titleRegExp = new RegExp(title, "gi");
+      const bodyRegExp = new RegExp(body, "gi");
+      const stats = await Post.aggregate([
+        {
+          $match: {
+            title: titleRegExp ? titleRegExp : "",
+            body: bodyRegExp ? bodyRegExp : "",
+            published: true
+          }
+        },
+        {
+          $group: {
+            _id: "$published",
+            nTasks: { $sum: 1 }
+          }
+        }
+      ]);
+
+      return { numPosts: stats[0].nTasks };
     }
   )
 };

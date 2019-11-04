@@ -10,6 +10,8 @@ const typeDefs = gql`
     comments(queryParams: CommentQueryParams): [Comment!]!
     publicPost(id: ID!): Post!
     privatePost(id: ID!): Post!
+
+    getNumPublicPosts(data: GetNumPostsInput): NumPosts!
   }
 
   type Mutation {
@@ -93,6 +95,10 @@ const typeDefs = gql`
     likes: [ID!]!
   }
 
+  type NumPosts {
+    numPosts: Int!
+  }
+
   input SignupUserInput {
     name: String!
     email: String!
@@ -159,6 +165,11 @@ const typeDefs = gql`
 
   input UpdateCommentInput {
     text: String!
+  }
+
+  input GetNumPostsInput {
+    title: String
+    body: String
   }
 `;
 
