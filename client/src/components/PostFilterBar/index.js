@@ -3,11 +3,12 @@ import { useApolloClient } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "../../queries/posts";
 import reducer from "../../reducers/stateReducer";
 
-function PostFilterBar({ setState, page, limit }) {
-  const [{ title, body, sort }, setFormState] = useReducer(reducer, {
+function PostFilterBar({ setState, page }) {
+  const [{ title, body, sort, limit }, setFormState] = useReducer(reducer, {
     title: "",
     body: "",
-    sort: ""
+    sort: "",
+    limit: 5
   });
 
   const client = useApolloClient();
@@ -25,7 +26,7 @@ function PostFilterBar({ setState, page, limit }) {
       }
     });
 
-    setState({ allPosts: response.data.allPosts });
+    setState({ allPosts: response.data.allPosts, title, body, sort, limit });
   };
 
   return (

@@ -9,17 +9,26 @@ import reducer from "../../reducers/stateReducer";
 import useFetchNumPublicPosts from "../../hooks/useFetchNumPublicPosts";
 
 export default function AllPostsPage() {
-  const [{ allPosts, page, limit }, setState] = useReducer(reducer, {
-    allPosts: [],
-    page: 1,
-    limit: 5
-  });
+  const [{ allPosts, page, limit, sort, body, title }, setState] = useReducer(
+    reducer,
+    {
+      allPosts: [],
+      page: 1,
+      limit: 5,
+      title: "",
+      body: "",
+      sort: ""
+    }
+  );
 
   const { data, error, loading } = useQuery(GET_ALL_POSTS, {
     fetchPolicy: "cache-and-network",
     variables: {
       page,
-      limit: parseInt(limit, 10)
+      limit: parseInt(limit, 10),
+      title,
+      body,
+      sort
     }
   });
 
@@ -37,7 +46,14 @@ export default function AllPostsPage() {
   return (
     <section>
       <h2>All Posts Page</h2>
-      <PostFilterBar setState={setState} page={page} limit={limit} />
+      <PostFilterBar
+        setState={setState}
+        page={page}
+        limit={limit}
+        title={title}
+        body={body}
+        sort={sort}
+      />
       <ul>
         {allPosts.map(post => (
           <PostListItem key={post._id} post={post} type="any-post" />
