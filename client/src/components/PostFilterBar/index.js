@@ -2,11 +2,10 @@ import React, { useReducer } from "react";
 import { useApolloClient } from "@apollo/react-hooks";
 import { GET_ALL_POSTS } from "../../queries/posts";
 import reducer from "../../reducers/stateReducer";
-function PostFilterBar({ setState, page }) {
-  const [{ title, body, limit }, setFormState] = useReducer(reducer, {
+function PostFilterBar({ setState, page, limit }) {
+  const [{ title, body }, setFormState] = useReducer(reducer, {
     title: "",
-    body: "",
-    limit: 5
+    body: ""
   });
 
   const client = useApolloClient();
@@ -23,7 +22,6 @@ function PostFilterBar({ setState, page }) {
       }
     });
 
-    console.log(response);
     setState({ allPosts: response.data.allPosts });
   };
 
@@ -49,7 +47,7 @@ function PostFilterBar({ setState, page }) {
           name="limit"
           id="search-limit"
           value={limit}
-          onChange={e => setFormState({ limit: e.target.value })}
+          onChange={e => setState({ limit: e.target.value })}
         >
           <option value={5}>5</option>
           <option value={10}>10</option>

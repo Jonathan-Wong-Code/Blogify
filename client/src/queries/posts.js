@@ -69,3 +69,11 @@ export const GET_PRIVATE_POST = gql`
   }
   ${POST_W_AUTHOR}
 `;
+
+export const GET_NUM_PUBLIC_POSTS = gql`
+  query getNumPublicPosts($title: String, $body: String) {
+    getNumPublicPosts(data: { title: $title, body: $body }) {
+      numPosts
+    }
+  }
+`;
