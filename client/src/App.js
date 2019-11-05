@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
+
+import "./App.css";
+
 import useCheckAuth from "./hooks/useCheckAuth";
 import AllPostsPage from "./components/AllPostsPage";
 import AllUsersPage from "./components/AllUsersPage";

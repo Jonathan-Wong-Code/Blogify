@@ -15,7 +15,6 @@ export default function PrivatePost() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-  console.log(data);
   const { privatePost: post } = data;
   return (
     <>

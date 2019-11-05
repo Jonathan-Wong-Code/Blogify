@@ -6,7 +6,6 @@ import { useAuthState } from "../../context/auth";
 
 export default function PostListItem({ post, type }) {
   const { user } = useAuthState();
-  console.log(post._id);
   return (
     <li key={post._id}>
       <h3>

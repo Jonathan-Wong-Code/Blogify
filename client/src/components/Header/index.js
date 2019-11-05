@@ -27,6 +27,9 @@ function Header() {
           {user && (
             <>
               <li>
+                <Link to="/my-profile">My Profile</Link>
+              </li>
+              <li>
                 <Link to="/create-post">Create Post</Link>
               </li>
               <li>

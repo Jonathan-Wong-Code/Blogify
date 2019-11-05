@@ -55,6 +55,14 @@ export const GET_PUBLIC_POST = gql`
   query publicPost($id: ID!) {
     publicPost(id: $id) {
       ...PostWithAuthor
+      comments {
+        text
+        _id
+        author {
+          name
+          _id
+        }
+      }
     }
   }
   ${POST_W_AUTHOR}

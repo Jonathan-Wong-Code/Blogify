@@ -12,6 +12,8 @@ const typeDefs = gql`
     privatePost(id: ID!): Post!
 
     getNumPublicPosts(data: GetNumPostsInput): NumPosts!
+
+    me: User!
   }
 
   type Mutation {

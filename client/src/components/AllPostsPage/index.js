@@ -42,18 +42,11 @@ export default function AllPostsPage() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-
+  console.log(allPosts);
   return (
     <section>
       <h2>All Posts Page</h2>
-      <PostFilterBar
-        setState={setState}
-        page={page}
-        limit={limit}
-        title={title}
-        body={body}
-        sort={sort}
-      />
+      <PostFilterBar setState={setState} page={page} />
       <ul>
         {allPosts.map(post => (
           <PostListItem key={post._id} post={post} type="any-post" />

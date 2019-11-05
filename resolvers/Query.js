@@ -3,7 +3,7 @@ const Post = require("../models/posts");
 const Comment = require("../models/comments");
 const { checkAuth, checkAdmin } = require("../utils/utils");
 const APIFeatures = require("../utils/apiFeatures");
-const catchAsync = require("../utils//catchAsync");
+const catchAsync = require("../utils/catchAsync");
 
 const Query = {
   users: catchAsync(async (parent, args, { request: { req } }, info) => {
@@ -29,6 +29,13 @@ const Query = {
     return user;
   }),
 
+  me: catchAsync(async (parent, ctx, { request: { req } }, info) => {
+    checkAuth(req);
+    const me = await User.findById(req.user._id);
+
+    return me;
+  }),
+
   myPosts: catchAsync(
     async (parent, { queryParams }, { request: { req } }, info) => {
       checkAuth(req);
@@ -51,7 +58,6 @@ const Query = {
 
   allPosts: catchAsync(
     async (parent, { queryParams = {} }, { request: { req } }, info) => {
-      console.log(queryParams);
       const features = new APIFeatures(
         Post.find({ published: true }).populate({
           path: "comments",
@@ -70,7 +76,10 @@ const Query = {
   ),
   // Fetch a public post
   publicPost: catchAsync((parent, { id }, ctx, info) => {
-    const post = Post.findOne({ published: true, _id: id });
+    const post = Post.findOne({ published: true, _id: id }).populate({
+      path: "comments",
+      populate: "author"
+    });
     if (!post) {
       throw new Error("404 Post not found");
     }
