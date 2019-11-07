@@ -8,6 +8,7 @@ const typeDefs = gql`
     myPosts(queryParams: PostQueryParams): [Post!]!
     allPosts(queryParams: PostQueryParams): [Post!]!
     comments(queryParams: CommentQueryParams): [Comment!]!
+    commentsByPost(postId: ID!): [Comment!]!
     publicPost(id: ID!): Post!
     privatePost(id: ID!): Post!
 

@@ -17,7 +17,9 @@ const Comments = {
         post: postId
       });
 
-      return comment;
+      const populatedComment = await Comment.findById(comment._id);
+
+      return populatedComment;
     }
   ),
 

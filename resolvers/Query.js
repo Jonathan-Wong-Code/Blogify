@@ -115,6 +115,20 @@ const Query = {
     }
   ),
 
+  commentsByPost: catchAsync(
+    async (parent, { postId }, { request: { req } }, info) => {
+      checkAuth(req);
+      const post = await Post.findById(postId);
+      if (!post) {
+        throw new Error("404 Post not found");
+      }
+
+      const comments = await Comment.find({ post: postId });
+
+      return comments;
+    }
+  ),
+
   getNumPublicPosts: catchAsync(
     async (parent, { data = {} }, { request: { req } }, info) => {
       const { title, body } = data;

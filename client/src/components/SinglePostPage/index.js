@@ -1,7 +1,7 @@
 import React from "react";
-import { BlogSection, Wrapper, Blog, H2, CommentBox } from "./css";
+import { BlogSection, Wrapper, Blog, H2 } from "./css";
 import { useState } from "react";
-
+import CommentBox from "../CommentBox";
 export default function SinglePostPage({ post }) {
   const [showComments, setShowComments] = useState(false);
   console.log(post);
@@ -19,18 +19,7 @@ export default function SinglePostPage({ post }) {
           </div>
         </Blog>
 
-        {showComments && (
-          <CommentBox className="comment-box">
-            <ul>
-              {post.comments.map(comment => (
-                <li key={comment._id}>
-                  <h4>{comment.author.name}</h4>
-                  <p>{comment.text}</p>
-                </li>
-              ))}
-            </ul>
-          </CommentBox>
-        )}
+        {showComments && <CommentBox comments={post.comments} post={post} />}
       </Wrapper>
     </BlogSection>
   );
