@@ -75,8 +75,8 @@ const Query = {
     }
   ),
   // Fetch a public post
-  publicPost: catchAsync((parent, { id }, ctx, info) => {
-    const post = Post.findOne({ published: true, _id: id }).populate({
+  publicPost: catchAsync(async (parent, { id }, ctx, info) => {
+    const post = await Post.findOne({ published: true, _id: id }).populate({
       path: "comments",
       populate: "author"
     });
@@ -87,15 +87,20 @@ const Query = {
     return post;
   }),
 
-  privatePost: catchAsync((parent, { id }, { request: { req } }, info) => {
-    checkAuth(req);
-    const post = Post.findOne({ _id: id, author: req.user._id });
-    if (!post) {
-      throw new Error("404 Post not found");
-    }
+  privatePost: catchAsync(
+    async (parent, { id }, { request: { req } }, info) => {
+      checkAuth(req);
+      const post = await Post.findOne({
+        _id: id,
+        author: req.user._id
+      }).populate({ path: "comments", populate: "author" });
+      if (!post) {
+        throw new Error("404 Post not found");
+      }
 
-    return post;
-  }),
+      return post;
+    }
+  ),
 
   comments: catchAsync(
     async (

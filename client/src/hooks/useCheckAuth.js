@@ -12,6 +12,7 @@ const CHECK_LOGGED_IN = gql`
         name
         email
         role
+        _id
       }
     }
   }

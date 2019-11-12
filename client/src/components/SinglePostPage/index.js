@@ -4,7 +4,7 @@ import { useState } from "react";
 import CommentBox from "../CommentBox";
 export default function SinglePostPage({ post }) {
   const [showComments, setShowComments] = useState(false);
-  console.log(post);
+
   return (
     <BlogSection>
       <Wrapper>

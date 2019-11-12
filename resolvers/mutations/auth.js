@@ -67,14 +67,7 @@ module.exports = {
     return { token, user: req.user };
   }),
 
-  async forgotPassword(
-    parent,
-    { email },
-    {
-      request: { req }
-    },
-    info
-  ) {
+  async forgotPassword(parent, { email }, { request: { req } }, info) {
     try {
       const user = await User.findOne({ email });
       if (!user) {
@@ -100,14 +93,7 @@ module.exports = {
     }
   },
 
-  async resetPassword(
-    parent,
-    { data },
-    {
-      request: { res }
-    },
-    info
-  ) {
+  async resetPassword(parent, { data }, { request: { res } }, info) {
     const { resetToken, password, confirmPassword } = data;
     const hashedToken = crypto
       .createHash("sha256")
@@ -128,14 +114,7 @@ module.exports = {
     return { token, user };
   },
 
-  async updatePassword(
-    parent,
-    { data },
-    {
-      request: { res, req }
-    },
-    info
-  ) {
+  async updatePassword(parent, { data }, { request: { res, req } }, info) {
     const { currentPassword, updatedPassword, confirmUpdatedPassword } = data;
     const isMatch = await req.user.verifyPassword(
       currentPassword,

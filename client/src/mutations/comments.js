@@ -20,3 +20,16 @@ export const DELETE_COMMENT = gql`
     }
   }
 `;
+
+export const UPDATE_COMMENT = gql`
+  mutation updateComment($commentId: ID!, $text: String!) {
+    updateComment(commentId: $commentId, data: { text: $text }) {
+      text
+      _id
+      author {
+        name
+        _id
+      }
+    }
+  }
+`;
