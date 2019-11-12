@@ -58,6 +58,7 @@ const Query = {
 
   allPosts: catchAsync(
     async (parent, { queryParams = {} }, { request: { req } }, info) => {
+      console.log("hi?");
       const features = new APIFeatures(
         Post.find({ published: true }).populate({
           path: "comments",
@@ -70,7 +71,6 @@ const Query = {
         .sort()
         .paginate();
       const posts = await features.queryObject;
-
       return posts;
     }
   ),

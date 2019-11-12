@@ -42,3 +42,16 @@ export const DELETE_MY_POST = gql`
     }
   }
 `;
+
+export const ADD_POST_LIKE = gql`
+  mutation addPostLike($postId: ID!) {
+    addPostLike(postId: $postId) {
+      _id
+      __typename
+      author {
+        __typename
+        name
+      }
+    }
+  }
+`;
