@@ -25,7 +25,15 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "User",
       required: [true, "A post must have an author"]
-    }
+    },
+
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        default: []
+      }
+    ]
   },
   {
     timestamps: true,
@@ -41,7 +49,7 @@ postSchema.virtual("comments", {
 });
 
 postSchema.pre(/^find/, function(next) {
-  this.populate({ path: "author" });
+  this.populate({ path: "author" }).populate({ path: "likes" });
   next();
 });
 

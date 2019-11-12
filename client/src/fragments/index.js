@@ -10,5 +10,6 @@ export const POST_W_AUTHOR = gql`
       name
       __typename
     }
+    likes
   }
 `;
