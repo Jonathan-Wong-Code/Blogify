@@ -33,6 +33,7 @@ function PostForm({
             _id: uuidv4(),
             title,
             body,
+            likes: [],
 
             author: {
               __typename: "User",

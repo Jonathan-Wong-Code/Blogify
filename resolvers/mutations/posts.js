@@ -61,17 +61,48 @@ const Posts = {
       if (!post) {
         throw new Error("404 post not found");
       }
-      console.log(post);
+
       if (
-        post.likes.some(like => like.toString() === req.user._id.toString())
+        post.likes.some(like => like._id.toString() === req.user._id.toString())
       ) {
         throw new Error("Post already liked");
       }
 
       post.likes.push(req.user._id);
-      await post.save();
 
-      return post;
+      await post.save();
+      const newPost = await Post.findById(postId);
+
+      return newPost;
+    }
+  ),
+
+  removePostLike: catchAsync(
+    async (parent, { postId }, { request: { req } }, info) => {
+      const post = await Post.findById(postId);
+      if (!post) {
+        throw new Error("Post not found!");
+      }
+
+      if (
+        !post.likes.some(
+          like => like._id.toString() === req.user._id.toString()
+        )
+      ) {
+        throw new Error("Post not already liked");
+      }
+
+      const filteredPostLikes = post.likes.filter(
+        like => like._id.toString() !== req.user._id.toString()
+      );
+
+      const newPost = await Post.findByIdAndUpdate(
+        postId,
+        { likes: filteredPostLikes },
+        { runValidators: true, new: true }
+      );
+
+      return newPost;
     }
   )
 };

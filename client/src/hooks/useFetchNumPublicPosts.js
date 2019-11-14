@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@apollo/react-hooks";
 import { GET_NUM_PUBLIC_POSTS } from "../queries/posts";
 import { useApolloClient } from "@apollo/react-hooks";
 

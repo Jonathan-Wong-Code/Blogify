@@ -48,8 +48,21 @@ export const ADD_POST_LIKE = gql`
     addPostLike(postId: $postId) {
       _id
       __typename
-      author {
-        __typename
+      likes {
+        _id
+        name
+      }
+    }
+  }
+`;
+
+export const REMOVE_POST_LIKE = gql`
+  mutation removePostLike($postId: ID!) {
+    removePostLike(postId: $postId) {
+      _id
+      __typename
+      likes {
+        _id
         name
       }
     }

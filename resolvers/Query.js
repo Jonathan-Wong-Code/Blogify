@@ -154,7 +154,10 @@ const Query = {
           }
         }
       ]);
-
+      console.log(stats);
+      if (stats.length === 0) {
+        return { numPosts: 0 };
+      }
       return { numPosts: stats[0].nTasks };
     }
   )

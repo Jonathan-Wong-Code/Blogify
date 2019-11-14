@@ -44,6 +44,7 @@ const typeDefs = gql`
     deleteComment(commentId: ID!): Comment!
     addLike(commentId: ID): Comment!
     addPostLike(postId: ID!): Post!
+    removePostLike(postId: ID!): Post!
   }
 
   type AuthPayload {
