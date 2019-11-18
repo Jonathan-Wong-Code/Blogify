@@ -77,3 +77,21 @@ export const RESET_PASSWORD = gql`
     }
   }
 `;
+
+export const UPDATE_PASSWORD = gql`
+  mutation updatePassword(
+    $currentPassword: String!
+    $updatedPassword: String!
+    $confirmUpdatedPassword: String!
+  ) {
+    updatePassword(
+      data: {
+        currentPassword: $currentPassword
+        updatedPassword: $updatedPassword
+        confirmUpdatedPassword: $confirmUpdatedPassword
+      }
+    ) {
+      message
+    }
+  }
+`;

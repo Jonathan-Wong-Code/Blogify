@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_MY_PROFILE } from "../../queries/users";
 function MyProfile() {
@@ -16,6 +17,7 @@ function MyProfile() {
         <h3>{me.name}</h3>
         <p>{me.email}</p>
       </div>
+      <Link to="/update-password">Change Password</Link>
     </section>
   );
 }

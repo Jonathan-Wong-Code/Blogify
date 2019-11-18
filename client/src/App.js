@@ -18,7 +18,7 @@ import PrivatePost from "./components/PrivatePost";
 import Signup from "./components/Signup";
 import Header from "./components/Header";
 import UpdatePost from "./components/UpdatePost";
-
+import UpdatePassword from "./components/UpdatePassword";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import ResetPassword from "./components/ResetPassword";
@@ -44,6 +44,7 @@ function App() {
           <PrivateRoute path="/create-post" component={CreatePost} />
           <PrivateRoute path="/update-post/:id" component={UpdatePost} />
           <PrivateRoute path="/my-profile" component={MyProfile} />
+          <PrivateRoute path="/update-password" component={UpdatePassword} />
           <Route path="/public-post/:id" component={PublicPost} />
           <PrivateRoute path="/my-posts/:id" component={PrivatePost} />
           <PublicRoute path="/login" component={Login} />
