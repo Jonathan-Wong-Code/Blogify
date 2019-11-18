@@ -47,3 +47,33 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const FORGOT_PASSWORD = gql`
+  mutation forgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+      message
+    }
+  }
+`;
+
+export const RESET_PASSWORD = gql`
+  mutation resetPassword(
+    $token: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    resetPassword(
+      data: {
+        resetToken: $token
+        password: $password
+        confirmPassword: $confirmPassword
+      }
+    ) {
+      token
+      user {
+        name
+        _id
+      }
+    }
+  }
+`;

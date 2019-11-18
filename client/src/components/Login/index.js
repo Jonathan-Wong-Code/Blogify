@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 
 import { useMutation } from "@apollo/react-hooks";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import reducer from "../../reducers/stateReducer";
 import { useAuthDispatch } from "../../context/auth";
@@ -59,6 +59,7 @@ export default function Login() {
         />
         <button type="submit">Submit</button>
       </form>
+      <Link to="/forgot-password">Forgot Password?</Link>
       {error && <p data-testid="login-error">{error.message}</p>}
     </section>
   );

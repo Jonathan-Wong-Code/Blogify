@@ -94,6 +94,7 @@ module.exports = {
   },
 
   async resetPassword(parent, { data }, { request: { res } }, info) {
+    console.log("hello");
     const { resetToken, password, confirmPassword } = data;
     const hashedToken = crypto
       .createHash("sha256")

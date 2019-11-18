@@ -8,6 +8,7 @@ import useCheckAuth from "./hooks/useCheckAuth";
 import AllPostsPage from "./components/AllPostsPage";
 import AllUsersPage from "./components/AllUsersPage";
 import CreatePost from "./components/CreatePost";
+import ForgotPassword from "./components/ForgotPassword";
 import Login from "./components/Login";
 import MyPostsPage from "./components/MyPostsPage";
 import MyProfile from "./components/MyProfile";
@@ -20,6 +21,8 @@ import UpdatePost from "./components/UpdatePost";
 
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
+import ResetPassword from "./components/ResetPassword";
+
 function App() {
   const { loading, checkLoggedIn } = useCheckAuth();
 
@@ -45,6 +48,11 @@ function App() {
           <PrivateRoute path="/my-posts/:id" component={PrivatePost} />
           <PublicRoute path="/login" component={Login} />
           <PublicRoute path="/signup" component={Signup} />
+          <PublicRoute path="/forgot-password" component={ForgotPassword} />
+          <PublicRoute
+            path="/reset-password/:token"
+            component={ResetPassword}
+          />
         </Switch>
       </>
     </Router>
