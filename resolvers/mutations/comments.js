@@ -59,29 +59,34 @@ const Comments = {
     }
   ),
 
-  addLike: catchAsync(
+  addCommentLike: catchAsync(
     async (parent, { commentId }, { request: { req } }, info) => {
       checkAuth(req);
-      const comment = await Comment.findById(commentId);
+      let comment = await Comment.findById(commentId);
       if (!comment) {
         throw new Error("Comment not found");
       }
-
       if (
-        comment.likes.some(like => like.toString() === req.user._id.toString())
+        comment.likes.some(
+          like => like._id.toString() === req.user._id.toString()
+        )
       ) {
-        const updatedComment = await Comment.findByIdAndUpdate(commentId, {
-          likes: comment.likes.filter(
-            like => like.toString() !== req.user._id.toString()
-          )
-        });
+        const filteredLikes = comment.likes.filter(
+          like => like._id.toString() !== req.user._id.toString()
+        );
 
-        return updatedComment;
+        const newComment = await Comment.findByIdAndUpdate(
+          comment._id,
+          { likes: filteredLikes },
+          { runValidators: true, new: true }
+        );
+
+        return newComment;
       }
 
-      const updatedComment = await Comment.findByIdAndUpdate(commentId, {
-        likes: [...comment.likes, req.user._id]
-      });
+      comment.likes.push(req.user._id);
+      await comment.save();
+      const updatedComment = await Comment.findById(commentId);
 
       return updatedComment;
     }

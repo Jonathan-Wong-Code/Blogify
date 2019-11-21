@@ -4,7 +4,8 @@ import { useMutation } from "@apollo/react-hooks";
 import {
   CREATE_COMMENT,
   DELETE_COMMENT,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  ADD_COMMENT_LIKE
 } from "../../mutations/comments";
 import { GET_PUBLIC_POST } from "../../queries/posts";
 import { useAuthState } from "../../context/auth";
@@ -102,6 +103,34 @@ export default function CommentBox({ comments, post }) {
     }
   });
 
+  // ADD COMMENT LIKE
+
+  const [addCommentLike] = useMutation(ADD_COMMENT_LIKE, {
+    update: (cache, { data: { addCommentLike } }) => {
+      console.log(addCommentLike);
+      const { publicPost } = cache.readQuery({
+        query: GET_PUBLIC_POST,
+        variables: { id: post._id }
+      });
+      cache.writeQuery({
+        query: GET_PUBLIC_POST,
+        variables: { id: post._id },
+        data: {
+          publicPost: {
+            ...publicPost,
+            comments: publicPost.comments.map(comment => {
+              if (comment._id === addCommentLike._id) {
+                return addCommentLike;
+              }
+
+              return comment;
+            })
+          }
+        }
+      });
+    }
+  });
+
   // CREATE COMMENT
   const onSubmit = e => {
     e.preventDefault();
@@ -118,6 +147,7 @@ export default function CommentBox({ comments, post }) {
           __typename: "Comment",
           text,
           _id: uuidv4(),
+          likes: [],
           author: {
             __typename: "User",
             name: user.name,
@@ -173,6 +203,16 @@ export default function CommentBox({ comments, post }) {
     });
   };
 
+  // ADD LIKE
+
+  const onCommentLike = commentId => {
+    addCommentLike({
+      variables: {
+        commentId
+      }
+    });
+  };
+
   return (
     <CommentContainer className="comment-box">
       <ul>
@@ -198,7 +238,13 @@ export default function CommentBox({ comments, post }) {
             </CommentFlex>
 
             {updatedCommentId !== comment._id ? (
-              <p>Comment: {comment.text}</p>
+              <>
+                <p>Comment: {comment.text}</p>
+                <button onClick={() => onCommentLike(comment._id)}>
+                  Like
+                </button>{" "}
+                <span>{comment.likes.length} likes</span>
+              </>
             ) : (
               <form action="" onSubmit={e => onUpdateSubmit(e, comment._id)}>
                 <label htmlFor="comment-edit">edit</label>

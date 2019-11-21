@@ -5,6 +5,10 @@ export const COMMENTS_BY_POST = gql`
     commentsByPost(postId: $postId) {
       text
       _id
+      likes {
+        _id
+        name
+      }
       author {
         name
         _id

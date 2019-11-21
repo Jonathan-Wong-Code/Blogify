@@ -28,7 +28,9 @@ const commentSchema = new mongoose.Schema({
 });
 
 commentSchema.pre(/^find/, function(next) {
-  this.populate("author").populate("post");
+  this.populate("author")
+    .populate("post")
+    .populate("likes");
   next();
 });
 

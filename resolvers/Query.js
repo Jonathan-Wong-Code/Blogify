@@ -128,7 +128,9 @@ const Query = {
         throw new Error("404 Post not found");
       }
 
-      const comments = await Comment.find({ post: postId });
+      const comments = await Comment.find({ post: postId }).populate({
+        path: "likes"
+      });
 
       return comments;
     }

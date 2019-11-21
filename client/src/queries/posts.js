@@ -56,9 +56,16 @@ export const GET_PUBLIC_POST = gql`
     publicPost(id: $id) {
       ...PostWithAuthor
       comments {
+        __typename
         text
         _id
+        likes {
+          __typename
+          _id
+          name
+        }
         author {
+          __typename
           name
           _id
         }
@@ -76,6 +83,10 @@ export const GET_PRIVATE_POST = gql`
       comments {
         text
         _id
+        likes {
+          _id
+          name
+        }
         author {
           name
           _id
